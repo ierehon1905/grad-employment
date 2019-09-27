@@ -28,6 +28,55 @@ const gridStyle = {
   textAlign: 'center',
 };
 
+class EditForm extends React.Component {
+  state = {};
+
+  render() {
+    const { name, age, employed, experience, jobHistory, education } = this.props;
+
+    return (
+      <Modal
+        title="Basic Modal"
+        visible={this.state.edit}
+        onOk={() => this.setState({ edit: false })}
+        onCancel={() => this.setState({ edit: false })}
+      >
+        <Form layout="vertical">
+          <Form.Item label="ФИО">
+            <Input defaultValue={name} />
+          </Form.Item>
+          <Form.Item label="Возраст">
+            <InputNumber defaultValue={age} />
+          </Form.Item>
+          <Form.Item label="Опыт работы">
+            <InputNumber defaultValue={experience} />
+          </Form.Item>
+          <Form.Item label="Трудоустроен">
+            <Input type="checkbox" defaultValue={employed} />
+          </Form.Item>
+          <Form.Item label="Образование">
+            <Input defaultValue={education} />
+          </Form.Item>
+          <Form.Item label="Места работы">
+            {jobHistory.map(el => (
+              <Form.Item label="Some job">
+                <Form.Item label="Промежуток">
+                  <DatePicker.RangePicker />
+                </Form.Item>
+                <Form.Item label="Описание должности">
+                  <Input.TextArea defaultValue={el.desc} />
+                </Form.Item>
+              </Form.Item>
+            ))}
+          </Form.Item>
+        </Form>
+      </Modal>
+    );
+  }
+}
+
+const WrappedEditForm = Form.create({ name: 'edit_form' })(EditForm);
+
 class Profile extends React.Component {
   state = {
     edit: true,
@@ -64,8 +113,8 @@ class Profile extends React.Component {
     return (
       <PageHeaderWrapper
         content={
-          <>
-            <Row gutter={20}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Row gutter={20} style={{ width: '100%' }}>
               <Col span={4}>
                 <Avatar icon="user" size={80} />
               </Col>
@@ -78,12 +127,9 @@ class Profile extends React.Component {
                 </Paragraph>
               </Col>
             </Row>
-          </>
+            <SmallStats age={age} experience={experience} rating={rating} />
+          </div>
         }
-        extra={<SmallStats age={age} experience={experience} rating={rating} />}
-        // extra={
-
-        // }
       >
         <Row gutter={24}>
           <Col span={14}>
@@ -94,36 +140,14 @@ class Profile extends React.Component {
           </Col>
         </Row>
 
-        <Modal
-          title="Basic Modal"
-          visible={this.state.edit}
-          onOk={() => this.setState({ edit: false })}
-          onCancel={() => this.setState({ edit: false })}
-        >
-          <Form layout="vertical">
-            <Form.Item label="ФИО">
-              <Input defaultValue={name} />
-            </Form.Item>
-            <Form.Item label="Возраст">
-              <InputNumber defaultValue={age} />
-            </Form.Item>
-            <Form.Item label="Трудоустроен">
-              <Input type="checkbox" defaultValue={employed} />
-            </Form.Item>
-            <Form.Item>
-              <Form.Item label="Последняя компания">
-                <Input defaultValue={name} />
-              </Form.Item>
-              <Form.Item label="Даты">
-                <DatePicker.RangePicker
-                  placeholder={['Start month', 'End month']}
-                  format="YYYY-MM"
-                  mode={['month', 'month']}
-                />
-              </Form.Item>
-            </Form.Item>
-          </Form>
-        </Modal>
+        <WrappedEditForm
+          name={name}
+          age={age}
+          experience={experience}
+          jobHistory={jobHistory}
+          employed={employed}
+          education={education}
+        />
       </PageHeaderWrapper>
     );
   }
