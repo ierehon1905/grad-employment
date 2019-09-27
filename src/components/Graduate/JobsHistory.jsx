@@ -22,19 +22,15 @@ const JobRecord = ({ dateSpan, desc }) => (
   </Row>
 );
 
-class JobsHistory extends React.PureComponent {
-  state = {
-    records: [],
-  };
-
-  componentDidMount() {
-    this.setState({ records: this.props.records });
-  }
+class JobsHistory extends React.Component {
+  state = {};
 
   render() {
+    const records = this.props.records || [];
+
     return (
       <Card title="Stats">
-        {this.state.records.map((el, i) => (
+        {records.map((el, i) => (
           <React.Fragment key={el.dateSpan}>
             {i !== 0 && <Divider />}
             <JobRecord {...el} />

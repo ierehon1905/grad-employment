@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar, Gauge, WaterWave } from 'ant-design-pro/lib/Charts';
-
+import { connect } from 'dva';
 import { Card, PageHeader, Icon, Row, Col, Statistic, Divider, Avatar, Typography } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
@@ -35,57 +35,90 @@ const gridStyle = {
   textAlign: 'center',
 };
 
-export default () => (
-  <PageHeaderWrapper
-    content={
-      <>
-        <Row gutter={20}>
-          <Col span={4}>
-            <Avatar icon="user" size={80} />
+class Profile extends React.Component {
+  componentDidMount() {
+    console.log('Grad mounted', Object.keys(this.props.currentGrad));
+
+    if (this.props.dispatch && Object.keys(this.props.currentGrad).length === 0) {
+      console.log('Dispatching grad');
+
+      this.props.dispatch({ type: 'grad/fetch' });
+    }
+  }
+
+  render() {
+    console.log('logging main props', this.props);
+    const {
+      name = '',
+      age = 0,
+      employed = false,
+      lastCompany = '',
+      experience = 0,
+      rating = 0,
+      jobHistory = [],
+      education = {},
+    } = this.props.currentGrad;
+    console.log('JobHistory', education);
+
+    return (
+      <PageHeaderWrapper
+        content={
+          <>
+            <Row gutter={20}>
+              <Col span={4}>
+                <Avatar icon="user" size={80} />
+              </Col>
+              <Col span={20}>
+                <Title style={{ marginBottom: 0 }}>{name}</Title>
+                <Paragraph>
+                  {employed ? 'Трудоустроен' : 'Нетрудоустроен'}
+                  <Divider type="vertical" />
+                  Последнее место работы — {lastCompany}
+                </Paragraph>
+              </Col>
+            </Row>
+          </>
+        }
+        extra={
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'nowraps',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              minWidth: 400,
+            }}
+          >
+            <Statistic title="Возраст" value={`${age} лет`} />
+
+            <Divider type="vertical" style={{ height: '2.3em' }} />
+
+            <Statistic title="Опыт работы" value={`${experience} лет`} />
+
+            <Divider type="vertical" style={{ height: '2.3em' }} />
+
+            <Statistic title="Рейтинг" value={rating} />
+          </div>
+        }
+        // extra={
+
+        // }
+      >
+        <Row gutter={24}>
+          <Col span={14}>
+            <JobsHistory records={jobHistory} />
           </Col>
-          <Col span={20}>
-            <Title style={{ marginBottom: 0 }}>Govno</Title>
-            <Paragraph>
-              Трудоустроен
-              <Divider type="vertical" />
-              Последнее место работы — Яндекс
-            </Paragraph>
+          <Col span={10}>
+            <Education data={education} />
           </Col>
         </Row>
-      </>
-    }
-    extra={
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'nowraps',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          minWidth: 400,
-        }}
-      >
-        <Statistic title="Возраст" value={'25 лет'} />
+      </PageHeaderWrapper>
+    );
+  }
+}
 
-        <Divider type="vertical" style={{ height: '2.3em' }} />
-
-        <Statistic title="Опыт работы" value={'5 лет'} />
-
-        <Divider type="vertical" style={{ height: '2.3em' }} />
-
-        <Statistic title="Рейтинг" value={2223} />
-      </div>
-    }
-    // extra={
-
-    // }
-  >
-    <Row gutter={24}>
-      <Col span={14}>
-        <JobsHistory records={mockRecords} />
-      </Col>
-      <Col span={10}>
-        <Education />
-      </Col>
-    </Row>
-  </PageHeaderWrapper>
-);
+export default connect((global, settings) => ({
+  currentGrad: global.grad.currentGrad,
+  gradId: settings.location.query.id,
+  settings,
+}))(Profile);
