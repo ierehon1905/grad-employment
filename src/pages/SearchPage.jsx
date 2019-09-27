@@ -1,78 +1,167 @@
 import React from 'react';
-import { Bar, Gauge, WaterWave } from 'ant-design-pro/lib/Charts';
 
-import { Card, PageHeader, Icon, Row, Col, Statistic, Divider, Avatar } from 'antd';
+import {
+  Menu,
+  Typography,
+  Input,
+  Form,
+  Select,
+  Divider,
+  Button,
+  Row,
+  Col,
+  Slider,
+  List,
+  Avatar,
+  Card,
+} from 'antd';
+
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import JobsHistory from '../components/Graduate/JobsHistory';
-import Education from '../components/Graduate/Education';
 
-const salesData = [];
-for (let i = 0; i < 12; i += 1) {
-  salesData.push({
-    x: `${i + 1}月`,
-    y: Math.floor(Math.random() * 1000) + 200,
-  });
+import SmallStats from '../components/Stats/Statistics';
+
+const { Title } = Typography;
+const { Search } = Input;
+
+class SearchPage extends React.Component {
+  state = {
+    current: 'grads',
+  };
+
+  handleClick = e => {
+    console.log('click ', e);
+    this.setState({
+      current: e.key,
+    });
+  };
+
+  render() {
+    return (
+      <>
+        <div style={{ textAlign: 'center' }}>
+          <Title level={3}>Поиск пользователей</Title>
+          <Search
+            placeholder="Начните вводить имя пользователя"
+            enterButton="Найти"
+            size="large"
+            onSearch={value => console.log(value)}
+            style={{ maxWidth: 600 }}
+          />
+        </div>
+        <Menu
+          mode="horizontal"
+          selectedKeys={[this.state.current]}
+          onClick={this.handleClick}
+          style={{ marginBottom: '1em' }}
+        >
+          <Menu.Item key="grads">Пользователей</Menu.Item>
+          <Menu.Item key="vacancies">Вакансий</Menu.Item>
+          <Menu.Item key="employers">Работадателей</Menu.Item>
+        </Menu>
+        <Form
+          layout="inline"
+          // style={{
+          //   display: 'flex',
+          //   alignItems: 'center',
+          //   flexWrap: 'wrap',
+          //   justifyContent: 'space-between',
+          // }}
+        >
+          <Row gutter={10}>
+            <Col span={20}>
+              <Form.Item label="Университет">
+                <Select mode="multiple" style={{ minWidth: 270 }}>
+                  <Select.Option value="china" label="China">
+                    <span role="img" aria-label="China">
+                      🇨🇳{' '}
+                    </span>
+                    China (中国)
+                  </Select.Option>
+                  <Select.Option value="usa" label="USA">
+                    <span role="img" aria-label="USA">
+                      🇺🇸{' '}
+                    </span>
+                    USA (美国)
+                  </Select.Option>
+                  <Select.Option value="japan" label="Japan">
+                    <span role="img" aria-label="Japan">
+                      🇯🇵{' '}
+                    </span>
+                    Japan (日本)
+                  </Select.Option>
+                  <Select.Option value="korea" label="Korea">
+                    <span role="img" aria-label="Korea">
+                      🇰🇷{' '}
+                    </span>
+                    Korea (韩国)
+                  </Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item label="Направление">
+                <Select mode="multiple" style={{ minWidth: 270 }}>
+                  <Select.Option value="china" label="China">
+                    <span role="img" aria-label="China">
+                      🇨🇳{' '}
+                    </span>
+                    China (中国)
+                  </Select.Option>
+                  <Select.Option value="usa" label="USA">
+                    <span role="img" aria-label="USA">
+                      🇺🇸{' '}
+                    </span>
+                    USA (美国)
+                  </Select.Option>
+                  <Select.Option value="japan" label="Japan">
+                    <span role="img" aria-label="Japan">
+                      🇯🇵{' '}
+                    </span>
+                    Japan (日本)
+                  </Select.Option>
+                  <Select.Option value="korea" label="Korea">
+                    <span role="img" aria-label="Korea">
+                      🇰🇷{' '}
+                    </span>
+                    Korea (韩国)
+                  </Select.Option>
+                </Select>
+              </Form.Item>
+              <Divider />
+              <Form.Item label="Возраст">
+                <Slider range defaultValue={[20, 50]} style={{ minWidth: 270 }} />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              <Button>Применить фильтры</Button>
+            </Col>
+          </Row>
+        </Form>
+
+        <List
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={[1, 2, 3, 4]}
+          // grid={{ gutter: 10, column: 1 }}
+          renderItem={item => (
+            <Card size="small" style={{ marginBottom: 24 }}>
+              <List.Item extra={<SmallStats age={20} experience={2} rating={1000} />}>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      size={48}
+                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    />
+                  }
+                  title={<a href="https://ant.design">item.name</a>}
+                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                />
+              </List.Item>
+            </Card>
+          )}
+        />
+      </>
+    );
+  }
 }
 
-const mockRecords = [
-  {
-    dateSpan: '20.20.2000-21.21.2021',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
-  },
-  {
-    dateSpan: '20.20.2001-21.21.2021',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
-  },
-  {
-    dateSpan: '20.20.2002-21.21.2021',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
-  },
-];
-
-const gridStyle = {
-  width: '33.33%',
-  textAlign: 'center',
-};
-
-export default () => (
-  <PageHeaderWrapper
-    avatar={{ icon: 'user' }}
-    extraContent={
-      <>
-        Трудоустроен
-        <Divider type="vertical" />
-        Последнее место работы — Яндекс
-      </>
-    }
-    extra={
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'nowraps',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          minWidth: 400,
-        }}
-      >
-        <Statistic title="Возраст" value={'25 лет'} />
-
-        <Divider type="vertical" style={{ height: '2.3em' }} />
-
-        <Statistic title="Опыт работы" value={'5 лет'} />
-
-        <Divider type="vertical" style={{ height: '2.3em' }} />
-
-        <Statistic title="Рейтинг" value={2223} />
-      </div>
-    }
-  >
-    <Row gutter={24}>
-      <Col span={14}>
-        <JobsHistory records={mockRecords} />
-      </Col>
-      <Col span={10}>
-        <Education />
-      </Col>
-    </Row>
-  </PageHeaderWrapper>
-);
+export default SearchPage;

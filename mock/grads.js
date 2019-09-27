@@ -16,11 +16,11 @@ export default {
     jobHistory: [
       {
         dateSpan: '20.20.2000-21.21.2021',
-        desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
+        desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
       },
       {
         dateSpan: '20.20.2001-21.21.2021',
-        desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
+        desc: 'HELLOH ELLOHELL OHELLOHEL LOHELLOHEL LOHELLOH ELLOHELLOHEL LOHELLOHELLO.',
       },
       {
         dateSpan: '20.20.2002-21.21.2021',

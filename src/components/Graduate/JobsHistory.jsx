@@ -9,15 +9,9 @@ const JobRecord = ({ dateSpan, desc }) => (
     </Col>
     <Col span={18}>
       <Title level={4}>Lorem, ipsum.</Title>
-      <Paragraph ellipsis={{ rows: 1, expandable: true }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio consequuntur omnis quo modi
-        autem!
-      </Paragraph>
+      <Paragraph ellipsis={{ rows: 1, expandable: true }}>{desc}</Paragraph>
       <Title level={4}>Lorem, ipsum.</Title>
-      <Paragraph ellipsis={{ rows: 3, expandable: true }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio consequuntur omnis quo modi
-        autem!
-      </Paragraph>
+      <Paragraph ellipsis={{ rows: 3, expandable: true }}>{desc}s</Paragraph>
     </Col>
   </Row>
 );

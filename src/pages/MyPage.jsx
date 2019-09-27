@@ -5,6 +5,7 @@ import { Card, PageHeader, Icon, Row, Col, Statistic, Divider, Avatar, Typograph
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
 import Education from '../components/Graduate/Education';
+import SmallStats from '../components/Stats/Statistics';
 
 const { Title, Paragraph } = Typography;
 const salesData = [];
@@ -79,27 +80,7 @@ class Profile extends React.Component {
             </Row>
           </>
         }
-        extra={
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'nowraps',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              minWidth: 400,
-            }}
-          >
-            <Statistic title="Возраст" value={`${age} лет`} />
-
-            <Divider type="vertical" style={{ height: '2.3em' }} />
-
-            <Statistic title="Опыт работы" value={`${experience} лет`} />
-
-            <Divider type="vertical" style={{ height: '2.3em' }} />
-
-            <Statistic title="Рейтинг" value={rating} />
-          </div>
-        }
+        extra={<SmallStats age={age} experience={experience} rating={rating} />}
         // extra={
 
         // }
