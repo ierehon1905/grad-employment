@@ -10,7 +10,7 @@ export default {
   'menu.mypage': 'Users',
   'menu.users': 'Users',
 
-  'menu.users.search': 'Search',
+  'menu.search': 'Search',
   'menu.users.profile': 'Profile',
 
   'layout.user.link.help': 'Help',

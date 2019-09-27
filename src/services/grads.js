@@ -6,3 +6,10 @@ export async function query(id) {
 
   return res;
 }
+
+export async function search(q) {
+  const res = await request('/api/grads/search', { method: 'get', params: { query: q } });
+  console.log('Service got ', res);
+
+  return res;
+}

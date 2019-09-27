@@ -113,12 +113,18 @@ export default {
               path: '/users',
               name: 'users',
               icon: 'line-chart',
+              component: './MyPage',
+              // routes: [
+              //   { path: '/users/', redirect: '/users/profile' },
+              //   { path: '/users/profile', name: 'profile',  },
 
-              routes: [
-                { path: '/users/', redirect: '/users/profile' },
-                { path: '/users/profile', name: 'profile', component: './MyPage' },
-                { path: '/users/search', name: 'search', component: './SearchPage' },
-              ],
+              // ],
+            },
+            {
+              path: '/search',
+              name: 'search',
+              icon: 'search',
+              component: './SearchPage',
             },
             {
               path: '/welcome',

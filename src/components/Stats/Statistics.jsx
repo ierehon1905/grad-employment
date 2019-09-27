@@ -1,14 +1,14 @@
 import React from 'react';
 import { Statistic, Divider } from 'antd';
 
-const SmallStats = ({ age, experience, rating }) => (
+const SmallStats = ({ age, experience, rating, minWidth = 400 }) => (
   <div
     style={{
       display: 'flex',
       flexWrap: 'nowraps',
       alignItems: 'center',
       justifyContent: 'space-around',
-      minWidth: 400,
+      minWidth,
     }}
   >
     <Statistic title="Возраст" value={`${age} лет`} />

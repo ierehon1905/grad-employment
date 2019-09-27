@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 
 import {
   Menu,
@@ -14,14 +15,51 @@ import {
   List,
   Avatar,
   Card,
+  Layout,
 } from 'antd';
-
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import SmallStats from '../components/Stats/Statistics';
 
+import GradsOptions from '../components/SearchOptions/Grads';
+import VacanciesOptions from '../components/SearchOptions/Vacancies';
+import EmployersOptions from '../components/SearchOptions/Employers';
+
+const { Sider, Content } = Layout;
+
 const { Title } = Typography;
 const { Search } = Input;
+
+class SideForm extends React.Component {
+  state = {};
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  };
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const { current } = this.props;
+
+    return (
+      <Form layout="vertical" onSubmit={this.handleSubmit}>
+        {current === 'grads' && <GradsOptions getFieldDecorator={getFieldDecorator} />}
+        {current === 'vacancies' && <VacanciesOptions getFieldDecorator={getFieldDecorator} />}
+        {current === 'employers' && <EmployersOptions getFieldDecorator={getFieldDecorator} />}
+        <Form.Item>
+          <Button style={{ width: '100%' }} htmlType="submit">
+            Применить фильтры
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  }
+}
+const WrappedSideForm = Form.create({ name: 'options' })(SideForm);
 
 class SearchPage extends React.Component {
   state = {
@@ -35,133 +73,82 @@ class SearchPage extends React.Component {
     });
   };
 
+  handleSearch = v => {
+    const { dispatch } = this.props;
+    console.log('SOSISISOSISOSISOS');
+
+    if (dispatch) {
+      dispatch({ type: 'grad/search', payload: v });
+    }
+  };
+
   render() {
+    const results = this.props.searchResults;
+    console.log(results);
+
     return (
-      <>
-        <div style={{ textAlign: 'center' }}>
-          <Title level={3}>Поиск пользователей</Title>
-          <Search
-            placeholder="Начните вводить имя пользователя"
-            enterButton="Найти"
-            size="large"
-            onSearch={value => console.log(value)}
-            style={{ maxWidth: 600 }}
-          />
-        </div>
-        <Menu
-          mode="horizontal"
-          selectedKeys={[this.state.current]}
-          onClick={this.handleClick}
-          style={{ marginBottom: '1em' }}
-        >
-          <Menu.Item key="grads">Пользователей</Menu.Item>
-          <Menu.Item key="vacancies">Вакансий</Menu.Item>
-          <Menu.Item key="employers">Работадателей</Menu.Item>
-        </Menu>
-        <Form
-          layout="inline"
-          // style={{
-          //   display: 'flex',
-          //   alignItems: 'center',
-          //   flexWrap: 'wrap',
-          //   justifyContent: 'space-between',
-          // }}
-        >
-          <Row gutter={10}>
-            <Col span={20}>
-              <Form.Item label="Университет">
-                <Select mode="multiple" style={{ minWidth: 270 }}>
-                  <Select.Option value="china" label="China">
-                    <span role="img" aria-label="China">
-                      🇨🇳{' '}
-                    </span>
-                    China (中国)
-                  </Select.Option>
-                  <Select.Option value="usa" label="USA">
-                    <span role="img" aria-label="USA">
-                      🇺🇸{' '}
-                    </span>
-                    USA (美国)
-                  </Select.Option>
-                  <Select.Option value="japan" label="Japan">
-                    <span role="img" aria-label="Japan">
-                      🇯🇵{' '}
-                    </span>
-                    Japan (日本)
-                  </Select.Option>
-                  <Select.Option value="korea" label="Korea">
-                    <span role="img" aria-label="Korea">
-                      🇰🇷{' '}
-                    </span>
-                    Korea (韩国)
-                  </Select.Option>
-                </Select>
-              </Form.Item>
+      <Layout>
+        <Sider theme="light" style={{ marginRight: 24, padding: 12 }}>
+          <WrappedSideForm
+            onSubmit={this.handleOptionsSubmit}
+            current={this.state.current}
+          ></WrappedSideForm>
+        </Sider>
+        <Content>
+          <div style={{ textAlign: 'center', backgroundColor: 'white', padding: 18 }}>
+            <Title level={4}>Поиск пользователей</Title>
+            <Search
+              placeholder="Начните вводить имя пользователя"
+              enterButton="Найти"
+              size="large"
+              onSearch={this.handleSearch}
+              style={{ maxWidth: 600 }}
+            />
+          </div>
+          <Menu
+            mode="horizontal"
+            selectedKeys={[this.state.current]}
+            onClick={this.handleClick}
+            style={{ marginBottom: 12 }}
+          >
+            <Menu.Item key="grads">Пользователей</Menu.Item>
+            <Menu.Item key="vacancies">Вакансий</Menu.Item>
+            <Menu.Item key="employers">Работадателей</Menu.Item>
+          </Menu>
 
-              <Form.Item label="Направление">
-                <Select mode="multiple" style={{ minWidth: 270 }}>
-                  <Select.Option value="china" label="China">
-                    <span role="img" aria-label="China">
-                      🇨🇳{' '}
-                    </span>
-                    China (中国)
-                  </Select.Option>
-                  <Select.Option value="usa" label="USA">
-                    <span role="img" aria-label="USA">
-                      🇺🇸{' '}
-                    </span>
-                    USA (美国)
-                  </Select.Option>
-                  <Select.Option value="japan" label="Japan">
-                    <span role="img" aria-label="Japan">
-                      🇯🇵{' '}
-                    </span>
-                    Japan (日本)
-                  </Select.Option>
-                  <Select.Option value="korea" label="Korea">
-                    <span role="img" aria-label="Korea">
-                      🇰🇷{' '}
-                    </span>
-                    Korea (韩国)
-                  </Select.Option>
-                </Select>
-              </Form.Item>
-              <Divider />
-              <Form.Item label="Возраст">
-                <Slider range defaultValue={[20, 50]} style={{ minWidth: 270 }} />
-              </Form.Item>
-            </Col>
-            <Col span={4}>
-              <Button>Применить фильтры</Button>
-            </Col>
-          </Row>
-        </Form>
-
-        <List
-          className="demo-loadmore-list"
-          itemLayout="horizontal"
-          dataSource={[1, 2, 3, 4]}
-          // grid={{ gutter: 10, column: 1 }}
-          renderItem={item => (
-            <Card size="small" style={{ marginBottom: 24 }}>
-              <List.Item extra={<SmallStats age={20} experience={2} rating={1000} />}>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      size={48}
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+          <List
+            className="demo-loadmore-list"
+            itemLayout="horizontal"
+            dataSource={results}
+            // grid={{ gutter: 10, column: 1 }}
+            renderItem={item => (
+              <Card size="small" style={{ marginBottom: 12 }}>
+                <List.Item
+                  extra={
+                    <SmallStats
+                      minWidth={280}
+                      age={item.age}
+                      experience={item.experience}
+                      rating={item.rating}
                     />
                   }
-                  title={<a href="https://ant.design">item.name</a>}
-                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                />
-              </List.Item>
-            </Card>
-          )}
-        />
-      </>
+                >
+                  <List.Item.Meta
+                    avatar={<Avatar size={48} src={item.avatar} />}
+                    title={<a href="https://ant.design">{item.name}</a>}
+                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                  />
+                </List.Item>
+              </Card>
+            )}
+          />
+        </Content>
+      </Layout>
     );
   }
 }
 
-export default SearchPage;
+export default connect((global, settings) => ({
+  searchResults: global.grad.searchResults,
+  settings,
+}))(SearchPage);
