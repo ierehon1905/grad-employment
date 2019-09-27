@@ -1,12 +1,11 @@
 import React from 'react';
 import { Bar, Gauge, WaterWave } from 'ant-design-pro/lib/Charts';
 
-import { Card, PageHeader, Icon, Row, Col, Statistic, Divider, Avatar, Typography } from 'antd';
+import { Card, PageHeader, Icon, Row, Col, Statistic, Divider, Avatar } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
 import Education from '../components/Graduate/Education';
 
-const { Title, Paragraph } = Typography;
 const salesData = [];
 for (let i = 0; i < 12; i += 1) {
   salesData.push({
@@ -37,21 +36,12 @@ const gridStyle = {
 
 export default () => (
   <PageHeaderWrapper
-    content={
+    avatar={{ icon: 'user' }}
+    extraContent={
       <>
-        <Row gutter={20}>
-          <Col span={4}>
-            <Avatar icon="user" size={80} />
-          </Col>
-          <Col span={20}>
-            <Title style={{ marginBottom: 0 }}>Govno</Title>
-            <Paragraph>
-              Трудоустроен
-              <Divider type="vertical" />
-              Последнее место работы — Яндекс
-            </Paragraph>
-          </Col>
-        </Row>
+        Трудоустроен
+        <Divider type="vertical" />
+        Последнее место работы — Яндекс
       </>
     }
     extra={
@@ -60,7 +50,7 @@ export default () => (
           display: 'flex',
           flexWrap: 'nowraps',
           alignItems: 'center',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
           minWidth: 400,
         }}
       >
@@ -75,9 +65,6 @@ export default () => (
         <Statistic title="Рейтинг" value={2223} />
       </div>
     }
-    // extra={
-
-    // }
   >
     <Row gutter={24}>
       <Col span={14}>

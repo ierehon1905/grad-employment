@@ -117,7 +117,7 @@ export default {
               routes: [
                 { path: '/users/', redirect: '/users/profile' },
                 { path: '/users/profile', name: 'profile', component: './MyPage' },
-                { path: '/users/search', name: 'search' },
+                { path: '/users/search', name: 'search', component: './SearchPage' },
               ],
             },
             {
