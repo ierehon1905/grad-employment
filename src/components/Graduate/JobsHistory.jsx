@@ -1,10 +1,24 @@
 import React from 'react';
-import { Card, Divider, Row, Col } from 'antd';
+import { Card, Divider, Row, Col, Typography } from 'antd';
 
+const { Title, Paragraph } = Typography;
 const JobRecord = ({ dateSpan, desc }) => (
   <Row gutter={24}>
-    <Col span={6}>{dateSpan}</Col>
-    <Col span={18}>{desc}</Col>
+    <Col span={6} style={{ textAlign: 'center' }}>
+      {dateSpan}
+    </Col>
+    <Col span={18}>
+      <Title level={4}>Lorem, ipsum.</Title>
+      <Paragraph ellipsis={{ rows: 1, expandable: true }}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio consequuntur omnis quo modi
+        autem!
+      </Paragraph>
+      <Title level={4}>Lorem, ipsum.</Title>
+      <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio consequuntur omnis quo modi
+        autem!
+      </Paragraph>
+    </Col>
   </Row>
 );
 
