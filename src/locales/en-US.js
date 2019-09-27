@@ -7,7 +7,12 @@ import settings from './en-US/settings';
 
 export default {
   'navBar.lang': 'Languages',
-  'menu.mypage': 'New Page',
+  'menu.mypage': 'Users',
+  'menu.users': 'Users',
+
+  'menu.users.search': 'Search',
+  'menu.users.profile': 'Profile',
+
   'layout.user.link.help': 'Help',
   'layout.user.link.privacy': 'Privacy',
   'layout.user.link.terms': 'Terms',

@@ -20,7 +20,7 @@ const plugins = [
         // default false
         enable: true,
         // default zh-CN
-        default: 'zh-CN',
+        default: 'en-US',
         // default true, when it is true, will use `navigator.language` overwrite default
         baseNavigator: true,
       },
@@ -110,10 +110,15 @@ export default {
             },
             // new page
             {
-              path: '/mypage',
-              name: 'mypage',
-              icon: 'plus-square',
-              component: 'MyPage',
+              path: '/users',
+              name: 'users',
+              icon: 'line-chart',
+
+              routes: [
+                { path: '/users/', redirect: '/users/profile' },
+                { path: '/users/profile', name: 'profile', component: './MyPage' },
+                { path: '/users/search', name: 'search' },
+              ],
             },
             {
               path: '/welcome',
