@@ -44,14 +44,13 @@ class SideForm extends React.Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
     const { current } = this.props;
 
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
-        {current === 'grads' && <GradsOptions getFieldDecorator={getFieldDecorator} />}
-        {current === 'vacancies' && <VacanciesOptions getFieldDecorator={getFieldDecorator} />}
-        {current === 'employers' && <EmployersOptions getFieldDecorator={getFieldDecorator} />}
+        {current === 'grads' && <GradsOptions f={this.props.form}/>}
+        {current === 'vacancies' && <VacanciesOptions f={this.props.form} />}
+        {current === 'employers' && <EmployersOptions f={this.props.form}/>}
         <Form.Item>
           <Button style={{ width: '100%' }} htmlType="submit">
             Применить фильтры
@@ -70,6 +69,9 @@ class SearchPage extends React.Component {
 
   handleClick = e => {
     console.log('click ', e);
+    routerRedux.replace({
+      pathname: '/user/login',
+    });
   };
 
   handleSearch = v => {

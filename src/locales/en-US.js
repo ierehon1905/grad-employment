@@ -15,6 +15,7 @@ export default {
   'menu.search.employers': 'Employers',
   'menu.search.vacancies': 'Vacancies',
   'menu.search.grads': 'Graduates',
+  'menu.analitics': 'Analitics',
 
   'layout.user.link.help': 'Help',
   'layout.user.link.privacy': 'Privacy',

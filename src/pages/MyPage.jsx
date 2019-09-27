@@ -1,35 +1,27 @@
 import React from 'react';
-import { Bar, Gauge, WaterWave } from 'ant-design-pro/lib/Charts';
 import { connect } from 'dva';
-import { Card, PageHeader, Icon, Row, Col, Statistic, Divider, Avatar, Typography } from 'antd';
+import {
+  Card,
+  PageHeader,
+  Icon,
+  Row,
+  Col,
+  Statistic,
+  Divider,
+  Avatar,
+  Typography,
+  Modal,
+  Form,
+  Input,
+  InputNumber,
+  DatePicker,
+} from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
 import Education from '../components/Graduate/Education';
 import SmallStats from '../components/Stats/Statistics';
 
 const { Title, Paragraph } = Typography;
-const salesData = [];
-for (let i = 0; i < 12; i += 1) {
-  salesData.push({
-    x: `${i + 1}月`,
-    y: Math.floor(Math.random() * 1000) + 200,
-  });
-}
-
-const mockRecords = [
-  {
-    dateSpan: '20.20.2000-21.21.2021',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
-  },
-  {
-    dateSpan: '20.20.2001-21.21.2021',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
-  },
-  {
-    dateSpan: '20.20.2002-21.21.2021',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
-  },
-];
 
 const gridStyle = {
   width: '33.33%',
@@ -37,6 +29,10 @@ const gridStyle = {
 };
 
 class Profile extends React.Component {
+  state = {
+    edit: true,
+  };
+
   componentDidMount() {
     console.log('Grad mounted', Object.keys(this.props.currentGrad));
 
@@ -46,6 +42,10 @@ class Profile extends React.Component {
       this.props.dispatch({ type: 'grad/fetch' });
     }
   }
+
+  handleChange = value => {
+    this.setState({ value });
+  };
 
   render() {
     console.log('logging main props', this.props);
@@ -93,6 +93,37 @@ class Profile extends React.Component {
             <Education data={education} />
           </Col>
         </Row>
+
+        <Modal
+          title="Basic Modal"
+          visible={this.state.edit}
+          onOk={() => this.setState({ edit: false })}
+          onCancel={() => this.setState({ edit: false })}
+        >
+          <Form layout="vertical">
+            <Form.Item label="ФИО">
+              <Input defaultValue={name} />
+            </Form.Item>
+            <Form.Item label="Возраст">
+              <InputNumber defaultValue={age} />
+            </Form.Item>
+            <Form.Item label="Трудоустроен">
+              <Input type="checkbox" defaultValue={employed} />
+            </Form.Item>
+            <Form.Item>
+              <Form.Item label="Последняя компания">
+                <Input defaultValue={name} />
+              </Form.Item>
+              <Form.Item label="Даты">
+                <DatePicker.RangePicker
+                  placeholder={['Start month', 'End month']}
+                  format="YYYY-MM"
+                  mode={['month', 'month']}
+                />
+              </Form.Item>
+            </Form.Item>
+          </Form>
+        </Modal>
       </PageHeaderWrapper>
     );
   }

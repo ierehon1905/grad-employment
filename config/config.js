@@ -136,10 +136,10 @@ export default {
               ],
             },
             {
-              path: '/welcome',
-              name: 'welcome',
-              icon: 'smile',
-              component: './Welcome',
+              path: '/analitics',
+              name: 'analitics',
+              icon: 'bar-chart',
+              component: './Analitics',
             },
             {
               component: './404',
