@@ -121,10 +121,19 @@ export default {
               // ],
             },
             {
-              path: '/search',
+              path: '/search/:sub',
               name: 'search',
               icon: 'search',
+              exact: true,
               component: './SearchPage',
+              routes: [
+                { path: '/search/grads', name: 'grads' },
+                { path: '/search/vacancies', name: 'vacancies' },
+                { path: '/search/employers', name: 'employers' },
+                {
+                  component: './404',
+                },
+              ],
             },
             {
               path: '/welcome',

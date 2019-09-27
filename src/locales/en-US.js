@@ -12,6 +12,9 @@ export default {
 
   'menu.search': 'Search',
   'menu.users.profile': 'Profile',
+  'menu.search.employers': 'Employers',
+  'menu.search.vacancies': 'Vacancies',
+  'menu.search.grads': 'Graduates',
 
   'layout.user.link.help': 'Help',
   'layout.user.link.privacy': 'Privacy',

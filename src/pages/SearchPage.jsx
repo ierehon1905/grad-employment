@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
+import { routerRedux, Redirect } from 'dva/router';
+import { stringify } from 'querystring';
 
 import {
   Menu,
@@ -68,9 +70,6 @@ class SearchPage extends React.Component {
 
   handleClick = e => {
     console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
   };
 
   handleSearch = v => {
@@ -84,15 +83,13 @@ class SearchPage extends React.Component {
 
   render() {
     const results = this.props.searchResults;
-    console.log(results);
+    console.log(this.props);
+    const current = this.props.match.params.sub;
 
     return (
       <Layout>
         <Sider theme="light" style={{ marginRight: 24, padding: 12 }}>
-          <WrappedSideForm
-            onSubmit={this.handleOptionsSubmit}
-            current={this.state.current}
-          ></WrappedSideForm>
+          <WrappedSideForm onSubmit={this.handleOptionsSubmit} current={current}></WrappedSideForm>
         </Sider>
         <Content>
           <div style={{ textAlign: 'center', backgroundColor: 'white', padding: 18 }}>
@@ -107,7 +104,7 @@ class SearchPage extends React.Component {
           </div>
           <Menu
             mode="horizontal"
-            selectedKeys={[this.state.current]}
+            selectedKeys={[current]}
             onClick={this.handleClick}
             style={{ marginBottom: 12 }}
           >
