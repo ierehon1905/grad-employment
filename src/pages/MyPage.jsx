@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { connect } from 'dva';
 import {
   Card,
@@ -20,6 +21,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
 import Education from '../components/Graduate/Education';
 import SmallStats from '../components/Stats/Statistics';
+import UniSelect from '../components/UniSelect';
 
 const { Title, Paragraph } = Typography;
 
@@ -32,39 +34,51 @@ class EditForm extends React.Component {
   state = {};
 
   render() {
-    const { name, age, employed, experience, jobHistory, education } = this.props;
+    const {
+      visible,
+      name,
+      age,
+      employed,
+      experience,
+      jobHistory,
+      education,
+      onCancel,
+      onOk,
+    } = this.props;
+
+    const { getFieldDecorator } = this.props.form;
 
     return (
-      <Modal
-        title="Basic Modal"
-        visible={this.state.edit}
-        onOk={() => this.setState({ edit: false })}
-        onCancel={() => this.setState({ edit: false })}
-      >
+      <Modal title="Edit" visible={visible} onOk={onOk} onCancel={onCancel}>
         <Form layout="vertical">
           <Form.Item label="ФИО">
-            <Input defaultValue={name} />
+            {getFieldDecorator('name', { initialValue: name })(<Input />)}
           </Form.Item>
           <Form.Item label="Возраст">
-            <InputNumber defaultValue={age} />
+            {getFieldDecorator('age', { initialValue: age })(<InputNumber />)}
           </Form.Item>
           <Form.Item label="Опыт работы">
-            <InputNumber defaultValue={experience} />
+            {getFieldDecorator('experience', { initialValue: experience })(<InputNumber />)}
           </Form.Item>
           <Form.Item label="Трудоустроен">
-            <Input type="checkbox" defaultValue={employed} />
+            {getFieldDecorator('employed', { initialValue: employed })(<Input type="checkbox" />)}
           </Form.Item>
           <Form.Item label="Образование">
-            <Input defaultValue={education} />
+            {getFieldDecorator('education', {
+              initialValue: education,
+              rules: [{ type: 'array' }],
+            })(<UniSelect />)}
           </Form.Item>
           <Form.Item label="Места работы">
-            {jobHistory.map(el => (
+            {jobHistory.map((el, i) => (
               <Form.Item label="Some job">
                 <Form.Item label="Промежуток">
-                  <DatePicker.RangePicker />
+                  {getFieldDecorator(`jobHistory[${i}].dateSpan`)(<DatePicker.RangePicker />)}
                 </Form.Item>
                 <Form.Item label="Описание должности">
-                  <Input.TextArea defaultValue={el.desc} />
+                  {getFieldDecorator(`jobHistory[${i}].desc`, {
+                    initialValue: el.desc,
+                  })(<Input.TextArea />)}
                 </Form.Item>
               </Form.Item>
             ))}
@@ -94,6 +108,27 @@ class Profile extends React.Component {
 
   handleChange = value => {
     this.setState({ value });
+  };
+
+  saveFormRef = formRef => {
+    this.formRef = formRef;
+  };
+
+  handleCreate = () => {
+    const { form } = this.formRef.props;
+    const { dispatch } = this.props.dispatch;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      if (dispatch) {
+        dispatch({ type: 'grad/editGrad', payload: { ...this.props.currentGrad, ...values } });
+      }
+      console.log('Received values of form: ', values);
+
+      form.resetFields();
+      this.setState({ edit: false });
+    });
   };
 
   render() {
@@ -130,6 +165,7 @@ class Profile extends React.Component {
             <SmallStats age={age} experience={experience} rating={rating} />
           </div>
         }
+        extra={<Icon type="edit" />}
       >
         <Row gutter={24}>
           <Col span={14}>
@@ -141,12 +177,16 @@ class Profile extends React.Component {
         </Row>
 
         <WrappedEditForm
+          wrappedComponentRef={this.saveFormRef}
           name={name}
           age={age}
           experience={experience}
           jobHistory={jobHistory}
           employed={employed}
           education={education}
+          visible={this.state.edit}
+          onCancel={() => this.setState({ edit: false })}
+          onOk={() => this.handleCreate()}
         />
       </PageHeaderWrapper>
     );

@@ -18,6 +18,13 @@ const GradModel = {
         payload: response,
       });
     },
+    *edit(_, { call, put }) {
+      const response = yield call(query);
+      yield put({
+        type: 'editGrad',
+        payload: response,
+      });
+    },
     *search({ payload }, { call, put }) {
       console.log('dispatching a search action', payload);
 
@@ -35,6 +42,9 @@ const GradModel = {
       console.log('Saving current grad to global state');
 
       return { ...state, currentGrad: action.payload || {} };
+    },
+    editGrad(state, action) {
+      return { ...state };
     },
     searchGrad(state, action) {
       console.log('Saving search to global state');

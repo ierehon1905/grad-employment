@@ -1,6 +1,6 @@
 export default {
   // 支持值为 Object 和 Array
-  'GET /api/grads': {
+  'PUT /api/grads': {
     name: 'Serati Mo',
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
     userid: '00000001',
@@ -28,7 +28,7 @@ export default {
       },
     ],
   },
-  'GET /api/grads/search': [
+  'PUT /api/grads/search': [
     {
       name: 'Serati Mo',
       avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
