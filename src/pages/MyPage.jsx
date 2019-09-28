@@ -23,6 +23,7 @@ import JobsHistory from '../components/Graduate/JobsHistory';
 import Education from '../components/Graduate/Education';
 import SmallStats from '../components/Stats/Statistics';
 import UniSelect from '../components/SuggestedSelect/UniSelect';
+import UserForm from '../components/UserForm';
 
 const { Title, Paragraph } = Typography;
 
@@ -30,104 +31,6 @@ const gridStyle = {
   width: '33.33%',
   textAlign: 'center',
 };
-
-class EditForm extends React.Component {
-  state = {
-    jobHistoryLength: 0,
-  };
-
-  componentDidMount() {
-    this.setState({ jobHistoryLength: this.props.jobHistory.length });
-  }
-
-  render() {
-    const {
-      visible,
-      name,
-      age,
-      employed,
-      experience,
-      jobHistory,
-      education,
-      onCancel,
-      onOk,
-    } = this.props;
-
-    const { getFieldDecorator, setFieldsValue } = this.props.form;
-
-    return (
-      <Modal title="Edit" visible={visible} onOk={onOk} onCancel={onCancel}>
-        <Form layout="vertical">
-          <Form.Item label="ФИО">
-            {getFieldDecorator('name', { initialValue: name })(<Input />)}
-          </Form.Item>
-          <Form.Item label="Возраст">
-            {getFieldDecorator('age', { initialValue: age })(<InputNumber />)}
-          </Form.Item>
-          <Form.Item label="Опыт работы">
-            {getFieldDecorator('experience', { initialValue: experience })(<InputNumber />)}
-          </Form.Item>
-          <Form.Item label="Трудоустроен">
-            {getFieldDecorator('employed', { initialValue: employed })(<Input type="checkbox" />)}
-          </Form.Item>
-          <Form.Item label="Образование">
-            {getFieldDecorator('university', {
-              initialValue: [{ key: 'foo', desc: 'bar' }],
-              rules: [{ type: 'array' }],
-            })(<UniSelect name="university" setFieldsValue={setFieldsValue} />)}
-          </Form.Item>
-          <Form.Item label="Места работы">
-            {Array(this.state.jobHistoryLength)
-              .fill(0)
-              .map((el, i) => (
-                <React.Fragment key={i}>
-                  {i !== 0 && <Divider />}
-                  <Form.Item label="Some job">
-                    <Form.Item label="Промежуток">
-                      {getFieldDecorator(`jobHistory[${i}].dateSpan`)(<DatePicker.RangePicker />)}
-                    </Form.Item>
-                    <Form.Item label="Описание должности">
-                      {getFieldDecorator(`jobHistory[${i}].desc`, {
-                        //   initialValue: el.desc,
-                      })(<Input.TextArea />)}
-                    </Form.Item>
-                  </Form.Item>
-                </React.Fragment>
-              ))}
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button
-                shape="circle"
-                icon="plus"
-                type="primary"
-                onClick={() => {
-                  console.log('Added job');
-
-                  this.setState(prevState => ({
-                    jobHistoryLength: prevState.jobHistoryLength + 1,
-                  }));
-                }}
-              />
-              <Button
-                shape="circle"
-                icon="cross"
-                type="danger"
-                onClick={() => {
-                  console.log('Removed job');
-                  if (this.state.jobHistoryLength === 0) return;
-                  this.setState(prevState => ({
-                    jobHistoryLength: prevState.jobHistoryLength - 1,
-                  }));
-                }}
-              />
-            </div>
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  }
-}
-
-const WrappedEditForm = Form.create({ name: 'edit_form' })(EditForm);
 
 class Profile extends React.Component {
   state = {
@@ -137,7 +40,11 @@ class Profile extends React.Component {
   componentDidMount() {
     console.log('Grad mounted', this.props);
 
-    if (this.props.dispatch && Object.keys(this.props.currentGrad).length === 0) {
+    if (
+      this.props.dispatch &&
+      (Object.keys(this.props.currentGrad).length === 0 ||
+        this.props.match.params.id !== this.props.currentGrad.id)
+    ) {
       console.log('Dispatching grad');
 
       this.props.dispatch({ type: 'grad/fetch', payload: this.props.match.params.id });
@@ -174,17 +81,17 @@ class Profile extends React.Component {
   render() {
     console.log('logging main props', this.props);
     const {
-      name = '',
+      firstName = '',
+      lastName = '',
+      middleName = '',
       age = 0,
       employed = false,
-      lastCompany = '',
       experience = 0,
       rating = 0,
-      jobHistory = [],
-      education = [],
-      competitions = [],
+      jobsTimeline = [],
+      educationData = [],
+      competitionData = [],
     } = this.props.currentGrad;
-    console.log('JobHistory', education);
 
     return (
       <PageHeaderWrapper
@@ -195,11 +102,13 @@ class Profile extends React.Component {
                 <Avatar icon="user" size={80} />
               </Col>
               <Col span={20}>
-                <Title style={{ marginBottom: 0 }}>{name}</Title>
+                <Title style={{ marginBottom: 0 }}>
+                  {lastName} {firstName} {middleName}
+                </Title>
                 <Paragraph>
                   {employed ? 'Трудоустроен' : 'Нетрудоустроен'}
                   <Divider type="vertical" />
-                  Последнее место работы — {lastCompany}
+                  Последнее место работы —{/* {lastCompany} */}
                 </Paragraph>
               </Col>
             </Row>
@@ -210,27 +119,28 @@ class Profile extends React.Component {
       >
         <Row gutter={24}>
           <Col span={14}>
-            <JobsHistory records={jobHistory} />
+            <JobsHistory records={jobsTimeline} />
           </Col>
           <Col span={10}>
-            <Education title="Образование" data={education} />
+            <Education title="Образование" data={educationData} />
             <div style={{ height: 24 }}></div>
-            <Education title="Соревноания" data={competitions} />
+            <Education title="Соревноания" data={competitionData} />
           </Col>
         </Row>
 
-        <WrappedEditForm
-          wrappedComponentRef={this.saveFormRef}
-          name={name}
-          age={age}
-          experience={experience}
-          jobHistory={jobHistory}
-          employed={employed}
-          education={education}
-          visible={this.state.edit}
-          onCancel={() => this.setState({ edit: false })}
-          onOk={() => this.handleEdit()}
-        />
+        <Modal visible={this.state.edit}>
+          <UserForm
+            wrappedComponentRef={this.saveFormRef}
+            name={`${lastName} ${firstName} ${middleName}`}
+            age={age}
+            experience={experience}
+            jobHistory={jobsTimeline}
+            employed={employed}
+            education={educationData}
+            onCancel={() => this.setState({ edit: false })}
+            onOk={() => this.handleEdit()}
+          />
+        </Modal>
       </PageHeaderWrapper>
     );
   }

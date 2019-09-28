@@ -2,8 +2,8 @@ import request from '@/utils/request';
 
 export async function query(id) {
   const res = await request(
-    // 'http://10.178.192.59:3000/gr/getUser',
-    '/api/grads',
+    'http://10.178.192.59:3000/gr/getUser',
+    // '/api/grads',
     {
       method: 'put',
       data: { id },

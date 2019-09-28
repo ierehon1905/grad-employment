@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Row, Col } from 'antd';
 import { TimelineChart, Pie, yuan } from 'ant-design-pro/lib/Charts';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 const chartData = [];
 for (let i = 0; i < 20; i += 1) {
@@ -43,7 +44,7 @@ class Analitics extends React.Component {
 
   render() {
     return (
-      <>
+      <PageHeaderWrapper>
         <Card
           title="Самые востребованные профессии"
           bodyStyle={{ paddingTop: 0 }}
@@ -76,7 +77,7 @@ class Analitics extends React.Component {
             </Card>
           </Col>
         </Row>
-      </>
+      </PageHeaderWrapper>
     );
   }
 }

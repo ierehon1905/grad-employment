@@ -1,4 +1,4 @@
-import { query, search } from '@/services/grads';
+import { query, search, editGrad } from '@/services/grads';
 
 const GradModel = {
   namespace: 'grad',
@@ -18,8 +18,8 @@ const GradModel = {
         payload: response.result[0],
       });
     },
-    *edit(_, { call, put }) {
-      const response = yield call(query);
+    *edit({ payload }, { call, put }) {
+      const response = yield call(editGrad, payload);
       yield put({
         type: 'editGrad',
         payload: response,

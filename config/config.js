@@ -110,11 +110,15 @@ export default {
             },
             // new page
             {
-              path: '/users/:id',
+              path: '/users',
               name: 'users',
               icon: 'line-chart',
-              component: './MyPage',
+
               hideInMenu: true,
+              routes: [
+                { path: '/users/id/:id', name: 'user', component: './MyPage' },
+                { path: '/users/new', name: 'newUser', component: './NewUser' },
+              ],
             },
             {
               path: '/search/:sub',
@@ -124,8 +128,8 @@ export default {
               component: './SearchPage',
               routes: [
                 { path: '/search/grads', name: 'grads' },
-                { path: '/search/vacancies', name: 'vacancies' },
-                { path: '/search/employers', name: 'employers' },
+                // { path: '/search/vacancies', name: 'vacancies' },
+                // { path: '/search/employers', name: 'employers' },
                 {
                   component: './404',
                 },

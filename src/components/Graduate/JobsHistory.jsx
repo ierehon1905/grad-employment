@@ -3,9 +3,9 @@ import { Card, Divider, Row, Col, Typography, Timeline } from 'antd';
 import moment from 'moment';
 
 const { Text, Paragraph } = Typography;
-const JobRecord = ({ dateSpan, desc }) => {
-  const start = moment(String(dateSpan).split('-')[0], 'DD-MM-YYYY');
-  const end = moment(String(dateSpan).split('-')[1], 'DD-MM-YYYY');
+const JobRecord = ({ speciality, company_name, create_date }) => {
+  const start = moment(String(create_date).split('-')[0], 'DD-MM-YYYY');
+  const end = moment();
   return (
     <Row gutter={24}>
       <Col
@@ -20,10 +20,10 @@ const JobRecord = ({ dateSpan, desc }) => {
         <Text type="secondary">{moment.duration(end.diff(start)).humanize()}</Text>
       </Col>
       <Col span={18}>
+        <Text strong>{company_name}</Text>
+        <Paragraph ellipsis={{ rows: 1, expandable: true }}>{speciality}</Paragraph>
         <Text strong>Lorem, ipsum.</Text>
-        <Paragraph ellipsis={{ rows: 1, expandable: true }}>{desc}</Paragraph>
-        <Text strong>Lorem, ipsum.</Text>
-        <Paragraph ellipsis={{ rows: 3, expandable: true }}>{desc}s</Paragraph>
+        <Paragraph ellipsis={{ rows: 3, expandable: true }}>{speciality}</Paragraph>
       </Col>
     </Row>
   );

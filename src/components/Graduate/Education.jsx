@@ -9,9 +9,9 @@ class Education extends React.Component {
   componentDidMount() {}
 
   render() {
-    const unis = this.props.data;
+    const unis = this.props.data || [];
     // const { title, desc } = this.props.data || { title: '', desc: '' };
-    console.log(unis);
+    // console.log(unis);
 
     return (
       <Card title={this.props.title}>
@@ -23,14 +23,13 @@ class Education extends React.Component {
                 <Avatar size={64} icon="bank" />
               </Col>
               <Col span={18}>
-                <Title level={4}>{el.title}</Title>
-                <Text>{el.desc}</Text>
+                <Title level={4}>{el.university_name}</Title>
+                <Text>{el.speciality_name}</Text>
               </Col>
             </Row>
             <div style={{ marginTop: 10 }}>
-              {el.tags.map(t => (
-                <Tag style={{ marginBottom: 8 }}>{t}</Tag>
-              ))}
+              {el.skillCategories &&
+                el.skillCategories.map(t => <Tag style={{ marginBottom: 8 }}>{t.name}</Tag>)}
             </div>
           </Fragment>
         ))}

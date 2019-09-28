@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux, Redirect } from 'dva/router';
+import Link from 'umi/link';
+
 import { stringify } from 'querystring';
 
 import {
@@ -108,12 +109,27 @@ middleName: null
 
     return (
       <Layout>
-        <Sider theme="light" width={300} style={{ marginRight: 0, marginLeft: -24, marginTop: -24, padding: 24 }}>
+        <Sider
+          theme="light"
+          width={300}
+          style={{ marginRight: 0, marginLeft: -24, marginTop: -24, padding: 24 }}
+        >
           <WrappedSideForm onSubmit={this.handleOptionsSubmit} current={current}></WrappedSideForm>
         </Sider>
-        <Content style={{ marginLeft: 0, marginRight: -24, marginTop: -24}}>
-          <div style={{ textAlign: 'center', backgroundColor: 'white', padding: 18 , position: "relative"}}>
-          <Divider type="vertical" orientation="left" style={{position: "absolute", height: "calc(100% + 48px)", left: 0, margin: 0}} />
+        <Content style={{ marginLeft: 0, marginRight: -24, marginTop: -24 }}>
+          <div
+            style={{
+              textAlign: 'center',
+              backgroundColor: 'white',
+              padding: 18,
+              position: 'relative',
+            }}
+          >
+            <Divider
+              type="vertical"
+              orientation="left"
+              style={{ position: 'absolute', height: 'calc(100% + 48px)', left: 0, margin: 0 }}
+            />
             <Title level={4}>Поиск пользователей</Title>
             <Search
               placeholder="Начните вводить имя пользователя"
@@ -135,12 +151,12 @@ middleName: null
             style={{ marginBottom: 12 }}
           >
             <Menu.Item key="grads">Пользователей</Menu.Item>
-            <Menu.Item key="vacancies">Вакансий</Menu.Item>
-            <Menu.Item key="employers">Работадателей</Menu.Item>
+            {/* <Menu.Item key="vacancies">Вакансий</Menu.Item>
+            <Menu.Item key="employers">Работадателей</Menu.Item> */}
           </Menu>
 
           <List
-            style={{padding: "0 14px" }}
+            style={{ padding: '0 14px' }}
             className="demo-loadmore-list"
             itemLayout="horizontal"
             dataSource={results}
@@ -153,14 +169,22 @@ middleName: null
                       minWidth={280}
                       age={item.age}
                       experience={item.experience}
-                      rating={item.rating}
+                      rating={item.score}
                     />
                   }
                 >
                   <List.Item.Meta
                     avatar={<Avatar size={48} src={item.avatar} icon="user" />}
-                    title={<a href={`/users/${item.id}`}>{item.name}</a>}
-                    description={`${item.employed ? 'Работает' : 'Работал'} в ${item.lastCompany}`}
+                    title={
+                      <Link to={`/users/id/${item.id}`}>
+                        {item.lastName} {item.firstName}
+                      </Link>
+                    }
+                    description={
+                      item.jobsTimeline.length === 0
+                        ? 'Без опыта работы'
+                        : item.jobsTimeline[0].company_name
+                    }
                   />
                 </List.Item>
               </Card>
