@@ -1,11 +1,17 @@
 import React from 'react';
 import { Card, Divider, Row, Col, Typography } from 'antd';
+import moment from 'moment';
 
 const { Title, Paragraph } = Typography;
 const JobRecord = ({ dateSpan, desc }) => (
   <Row gutter={24}>
     <Col span={6} style={{ textAlign: 'center' }}>
-      {dateSpan}
+      {moment(String(dateSpan).split('-')[0], 'DD-MM-YYYY').format('MMMM YYYY')}
+      <br/>
+
+      ———
+      <br/>
+      {moment(String(dateSpan).split('-')[1], 'DD-MM-YYYY').format('MMMM YYYY')}
     </Col>
     <Col span={18}>
       <Title level={4}>Lorem, ipsum.</Title>

@@ -39,6 +39,7 @@ class SideForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.props.onSubmit(values);
       }
     });
   };
@@ -48,9 +49,9 @@ class SideForm extends React.Component {
 
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
-        {current === 'grads' && <GradsOptions f={this.props.form}/>}
+        {current === 'grads' && <GradsOptions f={this.props.form} />}
         {current === 'vacancies' && <VacanciesOptions f={this.props.form} />}
-        {current === 'employers' && <EmployersOptions f={this.props.form}/>}
+        {current === 'employers' && <EmployersOptions f={this.props.form} />}
         <Form.Item>
           <Button style={{ width: '100%' }} htmlType="submit">
             Применить фильтры
@@ -64,28 +65,41 @@ const WrappedSideForm = Form.create({ name: 'options' })(SideForm);
 
 class SearchPage extends React.Component {
   state = {
-    current: 'grads',
+    query: null,
+    filters: [],
   };
 
-  handleClick = e => {
-    console.log('click ', e);
-    routerRedux.replace({
-      pathname: '/user/login',
-    });
+  handleMenuClick = e => {
+    // console.log('click ', e);
+    window.location.href = `/search/${e.key}`;
+    // window.history.pushState(null, null, `/search/${e.key}`);
   };
 
-  handleSearch = v => {
+  handleSearch = f => {
     const { dispatch } = this.props;
-    console.log('SOSISISOSISOSISOS');
+    console.log({ q: this.state.query, f });
 
     if (dispatch) {
-      dispatch({ type: 'grad/search', payload: v });
+      dispatch({ type: 'grad/search', payload: { q: this.state.query, f } });
     }
   };
 
+  handleOptionsSubmit = f => {
+    console.log('page recieved ', f);
+
+    this.setState({ filters: f }, this.handleSearch(f));
+  };
+
+  /*
+age: 18
+firstName: "Леон"
+id: 1
+lastName: "Минасян"
+middleName: null
+ */
   render() {
     const results = this.props.searchResults;
-    console.log(this.props);
+    // console.log(this.props);
     const current = this.props.match.params.sub;
 
     return (
@@ -99,6 +113,11 @@ class SearchPage extends React.Component {
             <Search
               placeholder="Начните вводить имя пользователя"
               enterButton="Найти"
+              onChange={e => {
+                console.log(e.target.value);
+                this.setState({ query: e.target.value });
+              }}
+              value={this.state.query}
               size="large"
               onSearch={this.handleSearch}
               style={{ maxWidth: 600 }}
@@ -107,7 +126,7 @@ class SearchPage extends React.Component {
           <Menu
             mode="horizontal"
             selectedKeys={[current]}
-            onClick={this.handleClick}
+            onClick={this.handleMenuClick}
             style={{ marginBottom: 12 }}
           >
             <Menu.Item key="grads">Пользователей</Menu.Item>
@@ -121,7 +140,7 @@ class SearchPage extends React.Component {
             dataSource={results}
             // grid={{ gutter: 10, column: 1 }}
             renderItem={item => (
-              <Card size="small" style={{ marginBottom: 12 }}>
+              <Card size="small" style={{ marginBottom: 12 }} key={item.id}>
                 <List.Item
                   extra={
                     <SmallStats
@@ -134,8 +153,8 @@ class SearchPage extends React.Component {
                 >
                   <List.Item.Meta
                     avatar={<Avatar size={48} src={item.avatar} />}
-                    title={<a href="https://ant.design">{item.name}</a>}
-                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                    title={<a href={`/users/${item.id}`}>{item.name}</a>}
+                    description={`${item.employed ? 'Работает' : 'Работал'} в ${item.lastCompany}`}
                   />
                 </List.Item>
               </Card>

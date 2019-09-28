@@ -16,6 +16,7 @@ import {
   Input,
   InputNumber,
   DatePicker,
+  Button,
 } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
@@ -31,7 +32,13 @@ const gridStyle = {
 };
 
 class EditForm extends React.Component {
-  state = {};
+  state = {
+    jobHistoryLength: 0,
+  };
+
+  componentDidMount() {
+    this.setState({ jobHistoryLength: this.props.jobHistory.length });
+  }
 
   render() {
     const {
@@ -46,7 +53,7 @@ class EditForm extends React.Component {
       onOk,
     } = this.props;
 
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator, setFieldsValue } = this.props.form;
 
     return (
       <Modal title="Edit" visible={visible} onOk={onOk} onCancel={onCancel}>
@@ -64,24 +71,28 @@ class EditForm extends React.Component {
             {getFieldDecorator('employed', { initialValue: employed })(<Input type="checkbox" />)}
           </Form.Item>
           <Form.Item label="Образование">
-            {getFieldDecorator('education', {
-              initialValue: education,
+            {getFieldDecorator('uni', {
+              initialValue: [{ key: 'foo', desc: 'bar' }],
               rules: [{ type: 'array' }],
-            })(<UniSelect />)}
+            })(<UniSelect setFieldsValue={setFieldsValue} />)}
           </Form.Item>
           <Form.Item label="Места работы">
             {jobHistory.map((el, i) => (
-              <Form.Item label="Some job">
-                <Form.Item label="Промежуток">
-                  {getFieldDecorator(`jobHistory[${i}].dateSpan`)(<DatePicker.RangePicker />)}
+              <React.Fragment>
+                {i !== 0 && <Divider />}
+                <Form.Item label="Some job">
+                  <Form.Item label="Промежуток">
+                    {getFieldDecorator(`jobHistory[${i}].dateSpan`)(<DatePicker.RangePicker />)}
+                  </Form.Item>
+                  <Form.Item label="Описание должности">
+                    {getFieldDecorator(`jobHistory[${i}].desc`, {
+                      initialValue: el.desc,
+                    })(<Input.TextArea />)}
+                  </Form.Item>
                 </Form.Item>
-                <Form.Item label="Описание должности">
-                  {getFieldDecorator(`jobHistory[${i}].desc`, {
-                    initialValue: el.desc,
-                  })(<Input.TextArea />)}
-                </Form.Item>
-              </Form.Item>
+              </React.Fragment>
             ))}
+            <Button shape="circle" icon="plus" />
           </Form.Item>
         </Form>
       </Modal>
@@ -93,16 +104,16 @@ const WrappedEditForm = Form.create({ name: 'edit_form' })(EditForm);
 
 class Profile extends React.Component {
   state = {
-    edit: true,
+    edit: false,
   };
 
   componentDidMount() {
-    console.log('Grad mounted', Object.keys(this.props.currentGrad));
+    console.log('Grad mounted', this.props);
 
     if (this.props.dispatch && Object.keys(this.props.currentGrad).length === 0) {
       console.log('Dispatching grad');
 
-      this.props.dispatch({ type: 'grad/fetch' });
+      this.props.dispatch({ type: 'grad/fetch', payload: this.props.match.params.id });
     }
   }
 
@@ -114,11 +125,13 @@ class Profile extends React.Component {
     this.formRef = formRef;
   };
 
-  handleCreate = () => {
+  handleEdit = () => {
     const { form } = this.formRef.props;
     const { dispatch } = this.props.dispatch;
     form.validateFields((err, values) => {
       if (err) {
+        console.log(err);
+
         return;
       }
       if (dispatch) {
@@ -165,7 +178,7 @@ class Profile extends React.Component {
             <SmallStats age={age} experience={experience} rating={rating} />
           </div>
         }
-        extra={<Icon type="edit" />}
+        extra={<Button shape="circle" icon="edit" onClick={() => this.setState({ edit: true })} />}
       >
         <Row gutter={24}>
           <Col span={14}>
@@ -186,7 +199,7 @@ class Profile extends React.Component {
           education={education}
           visible={this.state.edit}
           onCancel={() => this.setState({ edit: false })}
-          onOk={() => this.handleCreate()}
+          onOk={() => this.handleEdit()}
         />
       </PageHeaderWrapper>
     );

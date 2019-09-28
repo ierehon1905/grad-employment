@@ -7,28 +7,23 @@ const { Option } = Select;
 class GradsOptions extends React.PureComponent {
   render() {
     const { f } = this.props;
-    console.log(this.props);
 
     const { getFieldDecorator, setFieldsValue } = f;
+
     return (
       <>
         <Form.Item label="Университет">
           {getFieldDecorator('uni', {
             rules: [
               {
+                transform: el => el || [],
                 type: 'array',
-                transform: el => {
-                  console.log(el);
-                  return el;
-                },
               },
             ],
           })(<UniSelect setFieldsValue={setFieldsValue} />)}
         </Form.Item>
         <Form.Item label="Специальность">
-          {getFieldDecorator('speciality', {
-            rules: [{ type: 'array' }],
-          })(
+          {getFieldDecorator('speciality', {})(
             <Select mode="multiple" placeholder="Please select favourite colors">
               <Option value="red">Red</Option>
             </Select>,

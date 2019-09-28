@@ -38,18 +38,18 @@ class UniSelect extends React.Component {
   };
 
   handleChange = value => {
-    // this.setState({
-    //   value,
-    //   data: [],
-    //   fetching: false,
-    // });
+    this.setState({
+      // value,
+      data: [],
+      fetching: false,
+    });
     if (this.props.setFieldsValue) this.props.setFieldsValue({ uni: value });
-    console.log(!!this.props.setFieldsValue);
+    console.log('select uni', value);
   };
 
   render() {
     const { fetching, data, value } = this.state;
-    console.log('uni select', data, value);
+    // console.log('uni select', data, value);
 
     return (
       <Select

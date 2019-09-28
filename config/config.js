@@ -110,15 +110,11 @@ export default {
             },
             // new page
             {
-              path: '/users',
+              path: '/users/:id',
               name: 'users',
               icon: 'line-chart',
               component: './MyPage',
-              // routes: [
-              //   { path: '/users/', redirect: '/users/profile' },
-              //   { path: '/users/profile', name: 'profile',  },
-
-              // ],
+              hideInMenu: true,
             },
             {
               path: '/search/:sub',

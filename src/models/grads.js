@@ -7,15 +7,15 @@ const GradModel = {
     searchResults: [],
   },
   effects: {
-    *fetch(_, { call, put }) {
+    *fetch({ payload }, { call, put }) {
       console.log('dispatching an action');
 
-      const response = yield call(query);
+      const response = yield call(query, payload);
       console.log('got action res');
 
       yield put({
         type: 'saveCurrentGrad',
-        payload: response,
+        payload: response.result[0],
       });
     },
     *edit(_, { call, put }) {
@@ -33,7 +33,7 @@ const GradModel = {
 
       yield put({
         type: 'searchGrad',
-        payload: response,
+        payload: response.result,
       });
     },
   },
