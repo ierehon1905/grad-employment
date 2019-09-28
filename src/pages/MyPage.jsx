@@ -128,7 +128,11 @@ class Profile extends React.Component {
           </Col>
         </Row>
 
-        <Modal visible={this.state.edit}>
+        <Modal
+          visible={this.state.edit}
+          onCancel={() => this.setState({ edit: false })}
+          onOk={() => this.handleEdit()}
+        >
           <UserForm
             wrappedComponentRef={this.saveFormRef}
             name={`${lastName} ${firstName} ${middleName}`}
@@ -137,8 +141,6 @@ class Profile extends React.Component {
             jobHistory={jobsTimeline}
             employed={employed}
             education={educationData}
-            onCancel={() => this.setState({ edit: false })}
-            onOk={() => this.handleEdit()}
           />
         </Modal>
       </PageHeaderWrapper>

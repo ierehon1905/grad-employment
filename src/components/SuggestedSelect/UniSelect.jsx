@@ -29,18 +29,25 @@ class UniSelect extends React.Component {
       body: JSON.stringify({ filterId: this.props.name, q: value }),
     })
       .then(response => response.json())
-
       .then(body => {
-        if (fetchId !== this.lastFetchId) {
-          // for fetch callback order
-          return;
-        }
-        const data = body.result.map(user => ({
-          id: user.id,
-          name: user.name,
-        }));
-        this.setState({ data, fetching: false });
-      });
+        if (body.error) throw new Error(JSON.stringify(body.error));
+      })
+      .then(
+        body => {
+          if (fetchId !== this.lastFetchId) {
+            // for fetch callback order
+            return;
+          }
+          const data = body.result.map(user => ({
+            id: user.id,
+            name: user.name,
+          }));
+          this.setState({ data, fetching: false });
+        },
+        err => {
+          console.log(err);
+        },
+      );
   };
 
   handleChange = value => {
