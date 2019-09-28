@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Divider, Slider, Input, InputNumber, AutoComplete, Spin } from 'antd';
-import UniSelect from '../UniSelect';
+import UniSelect from '../SuggestedSelect/UniSelect';
 
 const { Option } = Select;
 
@@ -13,31 +13,42 @@ class GradsOptions extends React.PureComponent {
     return (
       <>
         <Form.Item label="Университет">
-          {getFieldDecorator('uni', {
+          {getFieldDecorator('university', {
             rules: [
               {
                 transform: el => el || [],
                 type: 'array',
               },
             ],
-          })(<UniSelect setFieldsValue={setFieldsValue} />)}
+          })(<UniSelect name="university" setFieldsValue={setFieldsValue} />)}
         </Form.Item>
         <Form.Item label="Специальность">
-          {getFieldDecorator('speciality', {})(
-            <Select mode="multiple" placeholder="Please select favourite colors">
-              <Option value="red">Red</Option>
-            </Select>,
-          )}
+          {getFieldDecorator('speciality', {
+            rules: [
+              {
+                transform: el => el || [],
+                type: 'array',
+              },
+            ],
+          })(<UniSelect name="speciality" setFieldsValue={setFieldsValue} />)}
         </Form.Item>
-        <Form.Item label="Направление">{getFieldDecorator('major')(<Input />)}</Form.Item>
+        {/* <Form.Item label="Направление">{getFieldDecorator('university', {
+            rules: [
+              {
+                transform: el => el || [],
+                type: 'array',
+              },
+            ],
+          })(<UniSelect setFieldsValue={setFieldsValue} />)}</Form.Item> */}
         <Form.Item label="Участие в конкурсах">
-          {getFieldDecorator('competitions', {
-            rules: [{ type: 'array' }],
-          })(
-            <Select mode="multiple" placeholder="Please select favourite colors">
-              <Option value="red">Red</Option>
-            </Select>,
-          )}
+          {getFieldDecorator('competition', {
+            rules: [
+              {
+                transform: el => el || [],
+                type: 'array',
+              },
+            ],
+          })(<UniSelect name="competition" setFieldsValue={setFieldsValue} />)}
         </Form.Item>
         <Form.Item label="В течении">
           {getFieldDecorator('days-range', { initialValue: 3 })(<InputNumber min={1} max={100} />)}

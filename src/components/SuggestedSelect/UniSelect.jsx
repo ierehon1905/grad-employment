@@ -43,8 +43,8 @@ class UniSelect extends React.Component {
       data: [],
       fetching: false,
     });
-    if (this.props.setFieldsValue) this.props.setFieldsValue({ uni: value });
-    console.log('select uni', value);
+    if (this.props.setFieldsValue) this.props.setFieldsValue({ [this.props.name]: value });
+    console.log('select ', this.props.name, value);
   };
 
   render() {
