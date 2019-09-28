@@ -104,11 +104,12 @@ middleName: null
 
     return (
       <Layout>
-        <Sider theme="light" style={{ marginRight: 24, padding: 12 }}>
+        <Sider theme="light" width={300} style={{ marginRight: 0, marginLeft: -24, marginTop: -24, padding: 24 }}>
           <WrappedSideForm onSubmit={this.handleOptionsSubmit} current={current}></WrappedSideForm>
         </Sider>
-        <Content>
-          <div style={{ textAlign: 'center', backgroundColor: 'white', padding: 18 }}>
+        <Content style={{ marginLeft: 0, marginRight: -24, marginTop: -24}}>
+          <div style={{ textAlign: 'center', backgroundColor: 'white', padding: 18 , position: "relative"}}>
+          <Divider type="vertical" orientation="left" style={{position: "absolute", height: "calc(100% + 48px)", left: 0, margin: 0}} />
             <Title level={4}>Поиск пользователей</Title>
             <Search
               placeholder="Начните вводить имя пользователя"
