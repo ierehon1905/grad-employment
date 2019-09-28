@@ -22,7 +22,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
 import Education from '../components/Graduate/Education';
 import SmallStats from '../components/Stats/Statistics';
-import UniSelect from '../components/UniSelect';
+import UniSelect from '../components/SuggestedSelect/UniSelect';
 
 const { Title, Paragraph } = Typography;
 

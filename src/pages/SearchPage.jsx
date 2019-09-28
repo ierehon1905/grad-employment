@@ -153,7 +153,7 @@ middleName: null
                   }
                 >
                   <List.Item.Meta
-                    avatar={<Avatar size={48} src={item.avatar} />}
+                    avatar={<Avatar size={48} src={item.avatar} icon="user" />}
                     title={<a href={`/users/${item.id}`}>{item.name}</a>}
                     description={`${item.employed ? 'Работает' : 'Работал'} в ${item.lastCompany}`}
                   />
