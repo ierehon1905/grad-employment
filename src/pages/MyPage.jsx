@@ -133,15 +133,7 @@ class Profile extends React.Component {
           onCancel={() => this.setState({ edit: false })}
           onOk={() => this.handleEdit()}
         >
-          <UserForm
-            wrappedComponentRef={this.saveFormRef}
-            name={`${lastName} ${firstName} ${middleName}`}
-            age={age}
-            experience={experience}
-            jobHistory={jobsTimeline}
-            employed={employed}
-            education={educationData}
-          />
+          <UserForm wrappedComponentRef={this.saveFormRef} grad={this.props.currentGrad} />
         </Modal>
       </PageHeaderWrapper>
     );

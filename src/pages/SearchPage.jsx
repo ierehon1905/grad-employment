@@ -135,7 +135,7 @@ middleName: null
               placeholder="Начните вводить имя пользователя"
               enterButton="Найти"
               onChange={e => {
-                console.log(e.target.value);
+                // console.log(e.target.value);
                 this.setState({ query: e.target.value });
               }}
               value={this.state.query}

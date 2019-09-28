@@ -1,23 +1,28 @@
 import React from 'react';
 import { Card, Divider, Row, Col, Typography, Timeline } from 'antd';
 import moment from 'moment';
+import 'moment/locale/ru';
+// import 'moment/src/locale/ru';
 
 const { Text, Paragraph } = Typography;
-const JobRecord = ({ speciality, company_name, create_date }) => {
-  const start = moment(String(create_date).split('-')[0], 'DD-MM-YYYY');
-  const end = moment();
+const JobRecord = ({ speciality, company_name, start, end }) => {
+  moment.locale('ru');
+  const startMoment = moment(start);
+  const endMoment = moment(end);
+  console.log(moment.locale());
+
   return (
     <Row gutter={24}>
       <Col
         span={6}
         // style={{ textAlign: 'center' }}
       >
-        {start.format('MMMM YYYY')}
+        {startMoment.format('MMMM YYYY')}
         <span style={{ marginLeft: '0.4em' }}>—</span>
         <br />
-        {end.format('MMMM YYYY')}
+        {endMoment.format('MMMM YYYY')}
         <br />
-        <Text type="secondary">{moment.duration(end.diff(start)).humanize()}</Text>
+        <Text type="secondary">{moment.duration(endMoment.diff(startMoment)).humanize()}</Text>
       </Col>
       <Col span={18}>
         <Text strong>{company_name}</Text>
@@ -39,7 +44,7 @@ class JobsHistory extends React.Component {
       <Card title="Stats">
         <Timeline>
           {records.map((el, i) => (
-            <Timeline.Item key={i}>
+            <Timeline.Item key={i} color={i === 0 ? 'blue' : 'gray'}>
               <JobRecord {...el} />
             </Timeline.Item>
           ))}

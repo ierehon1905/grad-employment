@@ -106,7 +106,7 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/analitics',
             },
             // new page
             {

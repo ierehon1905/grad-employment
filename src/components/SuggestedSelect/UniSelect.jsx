@@ -31,6 +31,7 @@ class UniSelect extends React.Component {
       .then(response => response.json())
       .then(body => {
         if (body.error) throw new Error(JSON.stringify(body.error));
+        return body;
       })
       .then(
         body => {
@@ -61,14 +62,15 @@ class UniSelect extends React.Component {
   };
 
   render() {
-    const { fetching, data, value } = this.state;
+    const { fetching, data } = this.state;
     // console.log('uni select', data, value);
 
     return (
       <Select
         mode="multiple"
         labelInValue
-        // value={value}
+        // defaultValue={[{ key: 1, label: '122' }]}
+        
         placeholder="Select users"
         notFoundContent={fetching ? <Spin size="small" /> : null}
         filterOption={false}
