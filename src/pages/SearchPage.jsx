@@ -140,6 +140,7 @@ middleName: null
           </Menu>
 
           <List
+            style={{padding: "0 14px" }}
             className="demo-loadmore-list"
             itemLayout="horizontal"
             dataSource={results}
