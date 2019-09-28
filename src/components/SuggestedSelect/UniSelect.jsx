@@ -22,16 +22,22 @@ class UniSelect extends React.Component {
     this.lastFetchId += 1;
     const fetchId = this.lastFetchId;
     this.setState({ data: [], fetching: true });
-    fetch('https://randomuser.me/api/?results=5')
+    fetch('http://10.178.192.59:3000/gr/suggest', {
+      method: 'PUT',
+      credentials: 'omit',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filterId: this.props.name, q: value }),
+    })
       .then(response => response.json())
+
       .then(body => {
         if (fetchId !== this.lastFetchId) {
           // for fetch callback order
           return;
         }
-        const data = body.results.map(user => ({
-          text: `${user.name.first} ${user.name.last}`,
-          value: user.login.username,
+        const data = body.result.map(user => ({
+          id: user.id,
+          name: user.name,
         }));
         this.setState({ data, fetching: false });
       });
@@ -64,7 +70,7 @@ class UniSelect extends React.Component {
         style={{ width: '100%' }}
       >
         {data.map(d => (
-          <Option key={d.value}>{d.text}</Option>
+          <Option key={d.id}>{d.name}</Option>
         ))}
       </Select>
     );

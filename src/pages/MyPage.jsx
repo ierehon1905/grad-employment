@@ -71,28 +71,55 @@ class EditForm extends React.Component {
             {getFieldDecorator('employed', { initialValue: employed })(<Input type="checkbox" />)}
           </Form.Item>
           <Form.Item label="Образование">
-            {getFieldDecorator('uni', {
+            {getFieldDecorator('university', {
               initialValue: [{ key: 'foo', desc: 'bar' }],
               rules: [{ type: 'array' }],
-            })(<UniSelect setFieldsValue={setFieldsValue} />)}
+            })(<UniSelect name="university" setFieldsValue={setFieldsValue} />)}
           </Form.Item>
           <Form.Item label="Места работы">
-            {jobHistory.map((el, i) => (
-              <React.Fragment>
-                {i !== 0 && <Divider />}
-                <Form.Item label="Some job">
-                  <Form.Item label="Промежуток">
-                    {getFieldDecorator(`jobHistory[${i}].dateSpan`)(<DatePicker.RangePicker />)}
+            {Array(this.state.jobHistoryLength)
+              .fill(0)
+              .map((el, i) => (
+                <React.Fragment key={i}>
+                  {i !== 0 && <Divider />}
+                  <Form.Item label="Some job">
+                    <Form.Item label="Промежуток">
+                      {getFieldDecorator(`jobHistory[${i}].dateSpan`)(<DatePicker.RangePicker />)}
+                    </Form.Item>
+                    <Form.Item label="Описание должности">
+                      {getFieldDecorator(`jobHistory[${i}].desc`, {
+                        //   initialValue: el.desc,
+                      })(<Input.TextArea />)}
+                    </Form.Item>
                   </Form.Item>
-                  <Form.Item label="Описание должности">
-                    {getFieldDecorator(`jobHistory[${i}].desc`, {
-                      initialValue: el.desc,
-                    })(<Input.TextArea />)}
-                  </Form.Item>
-                </Form.Item>
-              </React.Fragment>
-            ))}
-            <Button shape="circle" icon="plus" />
+                </React.Fragment>
+              ))}
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button
+                shape="circle"
+                icon="plus"
+                type="primary"
+                onClick={() => {
+                  console.log('Added job');
+
+                  this.setState(prevState => ({
+                    jobHistoryLength: prevState.jobHistoryLength + 1,
+                  }));
+                }}
+              />
+              <Button
+                shape="circle"
+                icon="cross"
+                type="danger"
+                onClick={() => {
+                  console.log('Removed job');
+                  if (this.state.jobHistoryLength === 0) return;
+                  this.setState(prevState => ({
+                    jobHistoryLength: prevState.jobHistoryLength - 1,
+                  }));
+                }}
+              />
+            </div>
           </Form.Item>
         </Form>
       </Modal>
@@ -154,7 +181,8 @@ class Profile extends React.Component {
       experience = 0,
       rating = 0,
       jobHistory = [],
-      education = {},
+      education = [],
+      competitions = [],
     } = this.props.currentGrad;
     console.log('JobHistory', education);
 
@@ -185,7 +213,9 @@ class Profile extends React.Component {
             <JobsHistory records={jobHistory} />
           </Col>
           <Col span={10}>
-            <Education data={education} />
+            <Education title="Образование" data={education} />
+            <div style={{ height: 24 }}></div>
+            <Education title="Соревноания" data={competitions} />
           </Col>
         </Row>
 

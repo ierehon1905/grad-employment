@@ -11,10 +11,44 @@ export default {
         experience: 1,
         age: 25,
         rating: 2222,
-        education: {
-          title: 'MISIS',
-          desc: 'Прикладная информатика в дизайне Бакалавриат, 2012 — 2016',
-        },
+        education: [
+          {
+            title: 'MISIS',
+            desc: 'Прикладная информатика в дизайне Бакалавриат, 2012 — 2016',
+            tags: [
+              'IT',
+              'Enginiring',
+              'Physics',
+              'Computer Science',
+              'Neural Pissins',
+              'Astrinomy',
+              'Mathematics',
+            ],
+          },
+          {
+            title: 'MIPT',
+            desc: 'Прикладная информатика в дизайне Бакалавриат, 2012 — 2016',
+            tags: ['Neural Pissins', 'Astrinomy', 'Mathematics'],
+          },
+        ],
+        competitions: [
+          {
+            title: 'JuniorSkills',
+            tags: [
+              'IT',
+              'Enginiring',
+              'Physics',
+              'Computer Science',
+              'Neural Pissins',
+              'Astrinomy',
+              'Mathematics',
+            ],
+          },
+          {
+            title: 'WorldSkills',
+            tags: ['Neural Pissins', 'Astrinomy', 'Mathematics'],
+          },
+        ],
         jobHistory: [
           {
             dateSpan: '20.10.2000-21.11.2021',
@@ -22,7 +56,7 @@ export default {
           },
           {
             dateSpan: '20.10.2001-21.11.2021',
-            desc: 'HELLOH ELLOHELL OHELLOHEL LOHELLOHEL LOHELLOH ELLOHELLOHEL LOHELLOHELLO.',
+            desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quasi.',
           },
           {
             dateSpan: '20.10.2002-21.11.2021',

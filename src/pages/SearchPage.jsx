@@ -66,7 +66,7 @@ const WrappedSideForm = Form.create({ name: 'options' })(SideForm);
 class SearchPage extends React.Component {
   state = {
     query: null,
-    filters: [],
+    filters: {},
   };
 
   handleMenuClick = e => {
@@ -75,19 +75,23 @@ class SearchPage extends React.Component {
     // window.history.pushState(null, null, `/search/${e.key}`);
   };
 
-  handleSearch = f => {
+  fetchSearch = (query, filters) => {
     const { dispatch } = this.props;
-    console.log({ q: this.state.query, f });
+    console.log({ query, filters });
 
     if (dispatch) {
-      dispatch({ type: 'grad/search', payload: { q: this.state.query, f } });
+      dispatch({ type: 'grad/search', payload: { q: query, f: filters } });
     }
+  };
+
+  handleSearchBtnClick = query => {
+    this.setState({ query }, this.fetchSearch(query, this.state.filters));
   };
 
   handleOptionsSubmit = f => {
     console.log('page recieved ', f);
 
-    this.setState({ filters: f }, this.handleSearch(f));
+    this.setState({ filters: f }, this.fetchSearch(this.state.query, f));
   };
 
   /*
@@ -120,7 +124,7 @@ middleName: null
               }}
               value={this.state.query}
               size="large"
-              onSearch={this.handleSearch}
+              onSearch={this.handleSearchBtnClick}
               style={{ maxWidth: 600 }}
             />
           </div>
