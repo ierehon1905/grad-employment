@@ -36,8 +36,6 @@ class Analitics extends React.Component {
   state = {
     professionsData: [{ x: '1' }],
     professionsLabels: {},
-
-
   };
 
   componentDidMount() {
@@ -113,7 +111,7 @@ class Analitics extends React.Component {
         <Row gutter={24} style={{ marginBottom: 24 }}>
           <Col span={12}>
             <ChartCard>
-              <Chart
+              {/* <Chart
                 height={window.innerHeight}
                 // data={dv}
                 // scale={cols}
@@ -159,7 +157,7 @@ class Analitics extends React.Component {
                     formatter={(val, item) => `${item.point.item}: ${val}`}
                   />
                 </Geom>
-              </Chart>
+              </Chart> */}
             </ChartCard>
           </Col>
           <Col span={12}>
