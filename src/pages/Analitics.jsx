@@ -36,6 +36,8 @@ class Analitics extends React.Component {
   state = {
     professionsData: [{ x: '1' }],
     professionsLabels: {},
+
+
   };
 
   componentDidMount() {
@@ -44,7 +46,7 @@ class Analitics extends React.Component {
     const ps = Array(5)
       .fill(0)
       .map((_, i) =>
-        fetch('http://10.178.192.59:3000/gr/stats/professions', {
+        fetch('http://10.178.192.63:3000/gr/stats/professions', {
           method: 'put',
           headers: {
             'Content-Type': 'application/json',
@@ -113,8 +115,8 @@ class Analitics extends React.Component {
             <ChartCard>
               <Chart
                 height={window.innerHeight}
-                data={dv}
-                scale={cols}
+                // data={dv}
+                // scale={cols}
                 padding={[80, 100, 80, 80]}
                 forceFit
               >

@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export async function query(id) {
   const res = await request(
-    'http://10.178.192.59:3000/gr/getUser',
+    'http://10.178.192.63:3000/gr/getUser',
     // '/api/grads',
     {
       method: 'put',
@@ -15,7 +15,7 @@ export async function query(id) {
 }
 
 export async function search(q) {
-  const res = await request('http://10.178.192.59:3000/gr/searchUser', {
+  const res = await request('http://10.178.192.63:3000/gr/searchUser', {
     method: 'put',
     data: q,
   });
@@ -25,7 +25,7 @@ export async function search(q) {
 }
 
 export async function edit(data) {
-  const res = await request('http://10.178.192.59:3000/gr/editUser', { method: 'put', data });
+  const res = await request('http://10.178.192.63:3000/gr/editUser', { method: 'put', data });
   console.log('Service got ', res);
 
   return res;

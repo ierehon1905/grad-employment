@@ -61,12 +61,12 @@ class EditForm extends React.Component {
                 <Row gutter={10}>
                   <Col span={10}>
                     <Form.Item label="Компания">
-                      {getFieldDecorator(`jobHistory[${i}].companyName`)(<Input />)}
+                      {getFieldDecorator(`jobsTimeline[${i}].company_name`)(<Input />)}
                     </Form.Item>
                   </Col>
                   <Col span={14}>
                     <Form.Item label="Промежуток">
-                      {getFieldDecorator(`jobHistory[${i}].dateSpan`)(
+                      {getFieldDecorator(`jobsTimeline[${i}].dateSpan`)(
                         <DatePicker.RangePicker
                           format="MM-YYYY"
                           placeholder={['Start month', 'End month']}
@@ -74,10 +74,10 @@ class EditForm extends React.Component {
                           // value={this.state.jobHistorySpans[i]}
                           onChange={v => {
                             console.log(v);
-                            setFieldsValue({ [`jobHistory[${i}].dateSpan`]: v });
+                            setFieldsValue({ [`jobsTimeline[${i}].dateSpan`]: v });
                           }}
                           onPanelChange={(value, mode) => {
-                            setFieldsValue({ [`jobHistory[${i}].dateSpan`]: value });
+                            setFieldsValue({ [`jobsTimeline[${i}].dateSpan`]: value });
                           }}
                         />,
                       )}
