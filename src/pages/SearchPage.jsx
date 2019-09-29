@@ -154,42 +154,42 @@ middleName: null
             {/* <Menu.Item key="vacancies">Вакансий</Menu.Item>
             <Menu.Item key="employers">Работадателей</Menu.Item> */}
           </Menu>
-
-          <List
-            style={{ padding: '0 14px' }}
-            className="demo-loadmore-list"
-            itemLayout="horizontal"
-            dataSource={results}
-            // grid={{ gutter: 10, column: 1 }}
-            renderItem={item => (
-              <Card size="small" style={{ marginBottom: 12 }} key={item.id}>
-                <List.Item
-                  extra={
-                    <SmallStats
-                      minWidth={280}
-                      age={item.age}
-                      experience={item.experience}
-                      rating={item.specializationFactor}
+          <div style={{ maxWidth: 674, margin: 'auto' }}>
+            <List
+              style={{ padding: '0 14px' }}
+              itemLayout="horizontal"
+              dataSource={results}
+              // grid={{ gutter: 10, column: 1 }}
+              renderItem={item => (
+                <Card size="small" style={{ marginBottom: 12 }} key={item.id}>
+                  <List.Item
+                    extra={
+                      <SmallStats
+                        minWidth={280}
+                        age={item.age}
+                        experience={item.experience}
+                        rating={item.specializationFactor}
+                      />
+                    }
+                  >
+                    <List.Item.Meta
+                      avatar={<Avatar size={48} src={item.avatar} icon="user" />}
+                      title={
+                        <Link to={`/users/id/${item.id}`}>
+                          {item.lastName} {item.firstName}
+                        </Link>
+                      }
+                      description={
+                        item.jobsTimeline.length === 0
+                          ? 'Без опыта работы'
+                          : item.jobsTimeline[0].company_name
+                      }
                     />
-                  }
-                >
-                  <List.Item.Meta
-                    avatar={<Avatar size={48} src={item.avatar} icon="user" />}
-                    title={
-                      <Link to={`/users/id/${item.id}`}>
-                        {item.lastName} {item.firstName}
-                      </Link>
-                    }
-                    description={
-                      item.jobsTimeline.length === 0
-                        ? 'Без опыта работы'
-                        : item.jobsTimeline[0].company_name
-                    }
-                  />
-                </List.Item>
-              </Card>
-            )}
-          />
+                  </List.Item>
+                </Card>
+              )}
+            />
+          </div>
         </Content>
       </Layout>
     );
