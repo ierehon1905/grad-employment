@@ -22,7 +22,7 @@ class UniSelect extends React.Component {
     this.lastFetchId += 1;
     const fetchId = this.lastFetchId;
     this.setState({ data: [], fetching: true });
-    fetch('http://10.178.192.59:3000/gr/suggest', {
+    fetch('http://10.178.192.63:3000/gr/suggest', {
       method: 'PUT',
       credentials: 'omit',
       headers: { 'Content-Type': 'application/json' },

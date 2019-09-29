@@ -1,5 +1,6 @@
 import React from 'react';
 import { Statistic, Divider } from 'antd';
+import { noun } from 'plural-ru';
 
 const SmallStats = ({ age, experience, jobsTimelineLength, rating, minWidth = 400 }) => (
   <div
@@ -18,14 +19,14 @@ const SmallStats = ({ age, experience, jobsTimelineLength, rating, minWidth = 40
     <Statistic
       title="Опыт работы"
       value={
-        experience ? `${experience} лет` : jobsTimelineLength ? `${jobsTimelineLength} мест` : 'нет'
+        experience ? `${experience} ${noun(experience, 'место', 'места', 'мест')}` : '--'
       }
       // valueStyle={{ fontSize: '0.9em', lineHeight: '1em' }}
     />
 
     <Divider type="vertical" style={{ height: '2.3em' }} />
 
-    <Statistic title="Рейтинг" value={rating} precision={2} />
+    <Statistic title="Специализация" value={rating || '--'} precision={2} />
   </div>
 );
 

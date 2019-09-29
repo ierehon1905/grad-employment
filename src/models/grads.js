@@ -1,4 +1,4 @@
-import { query, search, editGrad } from '@/services/grads';
+import { query, search, editGrad, subscribe, offerJobs } from '@/services/grads';
 
 const GradModel = {
   namespace: 'grad',
@@ -36,6 +36,22 @@ const GradModel = {
         payload: response.result,
       });
     },
+    *subscribe({ payload }, { call, put }) {
+      const response = yield call(subscribe, payload);
+
+      yield put({
+        type: 'subscribeGrad',
+        payload: response.result,
+      });
+    },
+    *offerJobs({ payload }, { call, put }) {
+      const response = yield call(offerJobs, payload);
+
+      yield put({
+        type: 'offerJobs',
+        payload: response.result,
+      });
+    },
   },
   reducers: {
     saveCurrentGrad(state, action) {
@@ -46,11 +62,18 @@ const GradModel = {
     editGrad(state, action) {
       return { ...state };
     },
+    subscribe(state, action) {
+      return { ...state };
+    },
+    offerJobs(state, action) {
+      return { ...state };
+    },
     searchGrad(state, action) {
       console.log('Saving search to global state');
 
       return { ...state, searchResults: action.payload || {} };
     },
+
   },
 };
 export default GradModel;
