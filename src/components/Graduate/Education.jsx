@@ -16,7 +16,7 @@ class Education extends React.Component {
     return (
       <Card title={this.props.title}>
         {unis.map((el, i) => (
-          <Fragment key={el.title}>
+          <Fragment key={i}>
             {i !== 0 && <Divider />}
             <Row gutter={20}>
               <Col span={6}>
@@ -29,7 +29,11 @@ class Education extends React.Component {
             </Row>
             <div style={{ marginTop: 10 }}>
               {el.skillCategories &&
-                el.skillCategories.map(t => <Tag style={{ marginBottom: 8 }}>{t.name}</Tag>)}
+                el.skillCategories.map(t => (
+                  <Tag key={t.name} style={{ marginBottom: 8 }}>
+                    {t.name}
+                  </Tag>
+                ))}
             </div>
           </Fragment>
         ))}

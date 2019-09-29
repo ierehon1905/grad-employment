@@ -19,22 +19,25 @@ import {
   Html,
 } from 'bizcharts';
 import DataSet from '@antv/data-set';
-import moment from 'moment';
 
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-const scale = {
-  value: {
-    // type: 'linear',
-    // tickInterval: 100,
-    // tickCount:10,
-  },
-};
+// const scale = {
+//   value: {
+//     alias: 'The Share Price in Dollars',
+
+//   },
+//   year: {
+//     range: [0, 1],
+//   },
+// };
 
 class Analitics extends React.Component {
   state = {
     professionsData: [{ x: '1' }],
     professionsLabels: {},
+
+
   };
 
   componentDidMount() {
@@ -61,49 +64,21 @@ class Analitics extends React.Component {
         // console.log(mas);
         mas.map((rec, i) => {
           if (!data[rec.create_date]) data[rec.create_date] = {};
-          data[rec.create_date][rec.speciality] = rec['COUNT(*)'];
+          data[rec.create_date][`y${y + 1}`] = rec['COUNT(*)'];
           if (i === 0) labels.push(rec.speciality);
         });
       });
       console.log('data ', data, labels);
 
-      const dv = new DataSet.View().source(
-        Object.keys(data).map((k, i) => ({ x: moment(k).format('L'), ...data[k] })),
-      );
+      const dv = new DataSet.View().source(Object.keys(data).map((k, i) => ({ x: i, ...data[k] })));
       dv.transform({
         type: 'fold',
-        fields: labels,
+        fields: ['y1', 'y2', 'y3', 'y4', 'y5'],
         key: 'type',
         value: 'value',
       });
       this.setState({
         professionsLabels: Object.fromEntries(labels.map((l, i) => [`y${i + 1}`, l])),
-        popularSkills: [
-          {
-            x: "IT",
-            y: 216
-          },
-          {
-            x: "Бухгалтерия, управленческий учет, финансы предприятия",
-            y: 62
-          },
-          {
-            x: "Юриспруденция",
-            y: 60
-          },
-          {
-            x: "Рабочий персонал",
-            y: 40
-          },
-          {
-            x: "Банки, инвестиции, лизинг",
-            y: 36
-          },
-          {
-            x: "Гуманиторные науки",
-            y: 29
-          }
-        ],
       });
       this.setState({ professionsData: dv });
     });
@@ -111,7 +86,7 @@ class Analitics extends React.Component {
 
   render() {
     console.log(this.state);
-    
+
     return (
       <PageHeaderWrapper>
         <ChartCard
@@ -126,7 +101,7 @@ class Analitics extends React.Component {
             padding="auto"
             forceFit
             // style={{ height: 467 }}
-            scale={scale}
+            // scale={scale}
           >
             <Tooltip crosshairs />
             <Axis />
@@ -138,22 +113,7 @@ class Analitics extends React.Component {
         <Row gutter={24} style={{ marginBottom: 24 }}>
           <Col span={12}>
             <ChartCard>
-            <Pie
-              hasLegend
-              title="Самые популярные направления"
-              subTitle="Самые популярные направления"
-              total={() => (
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: (this.state.popularSkills && this.state.popularSkills.reduce((pre, now) => now.y + pre, 0)),
-                  }}
-                />
-              )}
-              data={this.state.popularSkills}
-              valueFormat={val => <span dangerouslySetInnerHTML={{ __html: (val) }} />}
-              height={294}
-            />
-              {/* <Chart
+              <Chart
                 height={window.innerHeight}
                 // data={dv}
                 // scale={cols}
@@ -199,7 +159,7 @@ class Analitics extends React.Component {
                     formatter={(val, item) => `${item.point.item}: ${val}`}
                   />
                 </Geom>
-              </Chart> */}
+              </Chart>
             </ChartCard>
           </Col>
           <Col span={12}>
