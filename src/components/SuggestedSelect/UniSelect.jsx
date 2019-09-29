@@ -17,6 +17,14 @@ class UniSelect extends React.Component {
     fetching: false,
   };
 
+  componentDidMount() {
+    console.log('mounet and got ', this.props.value);
+
+    if (this.props.value) {
+      // this.setState({ value: this.props.value });
+    }
+  }
+
   fetchUser = value => {
     console.log('fetching user', value);
     this.lastFetchId += 1;
@@ -62,7 +70,7 @@ class UniSelect extends React.Component {
 
   render() {
     const { fetching, data } = this.state;
-    console.log('uni select props', this.props);
+    // console.log('uni select props', this.props);
 
     // console.log('uni select', data, value);
 
@@ -70,14 +78,14 @@ class UniSelect extends React.Component {
       <Select
         mode="multiple"
         labelInValue
-        // defaultValue={[{ key: 122 }]}
+        defaultValue={this.props.value}
         placeholder="Select users"
         notFoundContent={fetching ? <Spin size="small" /> : null}
         filterOption={false}
         onSearch={this.fetchUser}
         onChange={this.handleChange}
         style={{ width: '100%' }}
-        value={this.props.value}
+        // value={this.state.value}
       >
         {data.map(d => (
           <Option key={d.id}>{d.name}</Option>

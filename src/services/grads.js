@@ -24,8 +24,10 @@ export async function search(q) {
   return res;
 }
 
-export async function edit(data) {
-  const res = await request('http://10.178.192.63:3000/gr/editUser', { method: 'put', data });
+export async function fetchEdit(data) {
+  console.log('Service start ');
+
+  const res = await request('http://10.178.192.63:3000/gr/userEdit', { method: 'put', data });
   console.log('Service got ', res);
 
   return res;

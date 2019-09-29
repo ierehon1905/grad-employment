@@ -1,4 +1,4 @@
-import { query, search, editGrad } from '@/services/grads';
+import { query, search, fetchEdit } from '@/services/grads';
 
 const GradModel = {
   namespace: 'grad',
@@ -19,7 +19,11 @@ const GradModel = {
       });
     },
     *edit({ payload }, { call, put }) {
-      const response = yield call(editGrad, payload);
+      console.log('acting edit', payload);
+
+      const response = yield call(fetchEdit, payload);
+      console.log('response ',response);
+
       yield put({
         type: 'editGrad',
         payload: response,
@@ -44,6 +48,8 @@ const GradModel = {
       return { ...state, currentGrad: action.payload || {} };
     },
     editGrad(state, action) {
+      console.log(action);
+
       return { ...state };
     },
     searchGrad(state, action) {

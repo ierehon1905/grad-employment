@@ -19,18 +19,17 @@ import {
   Html,
 } from 'bizcharts';
 import DataSet from '@antv/data-set';
+import moment from 'moment';
 
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-// const scale = {
-//   value: {
-//     alias: 'The Share Price in Dollars',
-
-//   },
-//   year: {
-//     range: [0, 1],
-//   },
-// };
+const scale = {
+  value: {
+    // type: 'linear',
+    // tickInterval: 100,
+    // tickCount:10,
+  },
+};
 
 class Analitics extends React.Component {
   state = {
@@ -62,16 +61,18 @@ class Analitics extends React.Component {
         // console.log(mas);
         mas.map((rec, i) => {
           if (!data[rec.create_date]) data[rec.create_date] = {};
-          data[rec.create_date][`y${y + 1}`] = rec['COUNT(*)'];
+          data[rec.create_date][rec.speciality] = rec['COUNT(*)'];
           if (i === 0) labels.push(rec.speciality);
         });
       });
       console.log('data ', data, labels);
 
-      const dv = new DataSet.View().source(Object.keys(data).map((k, i) => ({ x: i, ...data[k] })));
+      const dv = new DataSet.View().source(
+        Object.keys(data).map((k, i) => ({ x: moment(k).format('L'), ...data[k] })),
+      );
       dv.transform({
         type: 'fold',
-        fields: ['y1', 'y2', 'y3', 'y4', 'y5'],
+        fields: labels,
         key: 'type',
         value: 'value',
       });
@@ -125,7 +126,7 @@ class Analitics extends React.Component {
             padding="auto"
             forceFit
             // style={{ height: 467 }}
-            // scale={scale}
+            scale={scale}
           >
             <Tooltip crosshairs />
             <Axis />

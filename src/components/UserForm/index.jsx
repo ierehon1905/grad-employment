@@ -31,7 +31,7 @@ class EditForm extends React.Component {
   }
 
   render() {
-    const { getFieldDecorator, setFieldsValue } = this.props.form;
+    const { getFieldDecorator, setFieldsValue, getFieldValue } = this.props.form;
 
     return (
       <Form layout="vertical">
@@ -46,8 +46,20 @@ class EditForm extends React.Component {
             <Form.Item label="Отчество">{getFieldDecorator('middleName')(<Input />)}</Form.Item>
           </Col>
         </Row>
+        <Row gutter={10}>
+          <Col span={8}>
+            <Form.Item label="Возраст">
+              {getFieldDecorator('age')(<InputNumber width="100%" />)}
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item label="Почта">{getFieldDecorator('email')(<Input />)}</Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item label="Телефон">{getFieldDecorator('phone')(<Input />)}</Form.Item>
+          </Col>
+        </Row>
 
-        <Form.Item label="Возраст">{getFieldDecorator('age')(<InputNumber />)}</Form.Item>
         {/* <Form.Item label="Опыт работы">
           {getFieldDecorator('experience')(<InputNumber />)}
         </Form.Item> */}
@@ -82,7 +94,13 @@ class EditForm extends React.Component {
                             // max: 1,
                           },
                         ],
-                      })(<UniSelect name={`educationData[${i}].university`} />)}
+                        initialValue: [
+                          {
+                            key: this.props.grad.educationData[i].id,
+                            label: this.props.grad.educationData[i].university_name,
+                          },
+                        ],
+                      })(<UniSelect name="university" />)}
                     </Form.Item>
                   </Col>
                   <Col span={14}>
@@ -91,7 +109,7 @@ class EditForm extends React.Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Form.Item label="Учреждение">
+                <Form.Item label="Специальность">
                   {getFieldDecorator(`educationData[${i}].speciality`, {
                     rules: [
                       {
@@ -100,7 +118,7 @@ class EditForm extends React.Component {
                         // valuePropName: 'value'
                       },
                     ],
-                  })(<UniSelect name={`educationData[${i}].speciality`} />)}
+                  })(<UniSelect name="speciality" />)}
                 </Form.Item>
               </React.Fragment>
             ))}
@@ -166,11 +184,11 @@ class EditForm extends React.Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Form.Item label="Описание должности">
+                {/* <Form.Item label="Описание должности">
                   {getFieldDecorator(`jobsTimeline[${i}].desc`, {
                     //   initialValue: el.desc,
                   })(<Input.TextArea />)}
-                </Form.Item>
+                </Form.Item> */}
               </React.Fragment>
             ))}
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>

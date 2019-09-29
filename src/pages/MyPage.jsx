@@ -61,20 +61,26 @@ class Profile extends React.Component {
 
   handleEdit = () => {
     const { form } = this.formRef.props;
-    const { dispatch } = this.props.dispatch;
+    const { dispatch } = this.props;
     form.validateFields((err, values) => {
       if (err) {
         console.log(err);
 
         return;
       }
+
       if (dispatch) {
-        dispatch({ type: 'grad/editGrad', payload: { ...this.props.currentGrad, ...values } });
+        console.log('dispatching edit');
+
+        dispatch({
+          type: 'grad/edit',
+          payload: { user: { ...this.props.currentGrad, ...values } },
+        });
       }
       console.log('Received values of form: ', values);
 
-      form.resetFields();
-      this.setState({ edit: false });
+      // form.resetFields();
+      // this.setState({ edit: false });
     });
   };
 
