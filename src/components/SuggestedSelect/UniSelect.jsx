@@ -66,6 +66,9 @@ class UniSelect extends React.Component {
       fetching: false,
     });
     console.log('select ', this.props.name, value);
+    if (this.props.setFieldsValue) {
+      this.props.setFieldsValue({ [this.props.formName]: value });
+    }
   };
 
   render() {

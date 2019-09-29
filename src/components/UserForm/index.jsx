@@ -23,7 +23,7 @@ class EditForm extends React.Component {
           educationData: this.props.grad.educationData.map((u, i) => ({
             ...u,
             university: [{ key: u.id, label: u.university_name }],
-            speciality: [{ key: i, label: u.speciality_name }],
+            speciality: [{ key: u.id, label: u.speciality_name }],
           })),
         }),
     );
@@ -103,7 +103,13 @@ class EditForm extends React.Component {
                                 },
                               ]
                             : [],
-                      })(<UniSelect name="university" />)}
+                      })(
+                        <UniSelect
+                          name="university"
+                          setFieldsValue={setFieldsValue}
+                          formName={`educationData[${i}].university`}
+                        />,
+                      )}
                     </Form.Item>
                   </Col>
                   <Col span={14}>
@@ -117,11 +123,25 @@ class EditForm extends React.Component {
                     rules: [
                       {
                         type: 'array',
-                        //  initialValue: [{ key: 1, label: 'foo' }],
-                        // valuePropName: 'value'
+                        // max: 1,
                       },
                     ],
-                  })(<UniSelect name="speciality" />)}
+                    initialValue:
+                      this.props.grad.educationData.length > i
+                        ? [
+                            {
+                              key: this.props.grad.educationData[i].id,
+                              label: this.props.grad.educationData[i].speciality,
+                            },
+                          ]
+                        : [],
+                  })(
+                    <UniSelect
+                      name="speciality"
+                      setFieldsValue={setFieldsValue}
+                      formName={`educationData[${i}].speciality`}
+                    />,
+                  )}
                 </Form.Item>
               </React.Fragment>
             ))}

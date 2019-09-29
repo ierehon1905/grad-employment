@@ -22,16 +22,17 @@ import {
   Tooltip,
 } from 'antd';
 
-
-const { Panel } = Collapse;
-const { Option } = Select;
-
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import JobsHistory from '../components/Graduate/JobsHistory';
 import Education from '../components/Graduate/Education';
+import Competitions from '../components/Graduate/Competitions';
+
 import SmallStats from '../components/Stats/Statistics';
 import UniSelect from '../components/SuggestedSelect/UniSelect';
 import UserForm from '../components/UserForm';
+
+const { Panel } = Collapse;
+const { Option } = Select;
 
 const { Title, Paragraph } = Typography;
 
@@ -39,26 +40,6 @@ const gridStyle = {
   width: '33.33%',
   textAlign: 'center',
 };
-
-function callback(key) {
-  console.log(key);
-}
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
-const genExtra = () => (
-  <Icon
-    type="setting"
-    onClick={event => {
-      // If you don't want click extra trigger collapse, you can prevent this:
-      event.stopPropagation();
-    }}
-  />
-);
 
 class Profile extends React.Component {
   state = {
@@ -109,7 +90,20 @@ class Profile extends React.Component {
 
         dispatch({
           type: 'grad/edit',
-          payload: { user: { ...this.props.currentGrad, ...values } },
+          payload: {
+            user: {
+              ...this.props.currentGrad,
+              ...values,
+              educationData: !values.educationData
+                ? []
+                : values.educationData.map(d => ({
+                    ...d,
+                    university_name: d.university[0].label,
+                    // id: Number(d.university[0].key) || 0,
+                    speciality_name: d.speciality[0].label,
+                  })),
+            },
+          },
         });
       }
       console.log('Received values of form: ', values);
@@ -121,13 +115,16 @@ class Profile extends React.Component {
 
   onSubscribe = () => {
     this.setState({ subscribed: true });
-    this.props.dispatch({ type: 'grad/subscribe', payload: { id: this.props.currentGrad.id } })
-  }
+    this.props.dispatch({ type: 'grad/subscribe', payload: { id: this.props.currentGrad.id } });
+  };
 
-  onOfferJobs = (jobs) => {
+  onOfferJobs = jobs => {
     this.setState({ offerSent: true });
-    this.props.dispatch({ type: 'grad/offerJobs', payload: { id: this.props.currentGrad.id, jobs } })
-  }
+    this.props.dispatch({
+      type: 'grad/offerJobs',
+      payload: { id: this.props.currentGrad.id, jobs },
+    });
+  };
 
   render() {
     console.log('logging main props', this.props);
@@ -141,7 +138,7 @@ class Profile extends React.Component {
       specializationFactor,
       jobsTimeline = [],
       educationData = [],
-      competitionData = [],
+      competitionsData = [],
       subscribed,
       alert,
       outOfDateAlert,
@@ -151,11 +148,7 @@ class Profile extends React.Component {
       suggestedPositions = [],
     } = this.props.currentGrad;
 
-    const {
-      subscribed: stateSubscribed,
-      expandIconPosition,
-      offerSent,
-    } = this.state;
+    const { subscribed: stateSubscribed, expandIconPosition, offerSent } = this.state;
 
     const isSubscribed = subscribed || stateSubscribed;
 
@@ -175,22 +168,35 @@ class Profile extends React.Component {
                   <span styles={{ marginTop: '12px', marginBottom: '12px', fontSize: '16px' }}>
                     {email}
                   </span>
-                  <Divider type='vertical' />
-                  {phone &&
-                    <span styles={{ marginTop: '12px', marginLeft: '12px !important', fontSize: '16px' }}>
-                      +7 ({phone[0]}{phone[1]}{phone[2]})  {phone[4]}{phone[5]}{phone[6]} - {phone[7]}{phone[8]} - {phone[9]}{phone[3]}
+                  <Divider type="vertical" />
+                  {phone && (
+                    <span
+                      styles={{
+                        marginTop: '12px',
+                        marginLeft: '12px !important',
+                        fontSize: '16px',
+                      }}
+                    >
+                      +7 ({phone[0]}
+                      {phone[1]}
+                      {phone[2]}) {phone[4]}
+                      {phone[5]}
+                      {phone[6]} - {phone[7]}
+                      {phone[8]} - {phone[9]}
+                      {phone[3]}
                     </span>
-                  }
+                  )}
                 </Paragraph>
                 <Paragraph>
-                  {!isSubscribed
-                    ? (
-                      <Tooltip title="Получаейте уведомления о карьерных событиях кандидата">
-                        <Button type="primary" onClick={this.onSubscribe}>Отслеживать</Button>
-                      </Tooltip>
-                    )
-                    : "Отслеживается"
-                  }
+                  {!isSubscribed ? (
+                    <Tooltip title="Получаейте уведомления о карьерных событиях кандидата">
+                      <Button type="primary" onClick={this.onSubscribe}>
+                        Отслеживать
+                      </Button>
+                    </Tooltip>
+                  ) : (
+                    'Отслеживается'
+                  )}
                 </Paragraph>
               </Col>
             </Row>
@@ -201,47 +207,43 @@ class Profile extends React.Component {
       >
         <Row gutter={24}>
           <Col span={14}>
-            {(suggestedPositions.length > 0 || outOfDateAlert || factorAlert) &&
-              <Collapse
-                expandIconPosition={"left"}
-              >
-                {suggestedPositions.length > 0 &&
-                  <Panel header="Есть рекомендации по трудоустройству" key="1" extra={genExtra()}>
-                    {suggestedPositions.map((position) => (
-                      <div key={position}>
+            {(suggestedPositions.length > 0 || outOfDateAlert || factorAlert) && (
+              <Collapse expandIconPosition="left">
+                {suggestedPositions.length > 0 && (
+                  <Panel header="Есть рекомендации по трудоустройству" key="1">
+                    {suggestedPositions.map(position => (
+                      <div key={position.id}>
                         <b>{position.company_name}</b>
                         <br />
-                        {position.speciality} - от {position.max_salary}р.
-                                </div>
+                        {position.speciality}
+                      </div>
                     ))}
                     <div style={{ marginTop: '10px' }}>
-                      {!offerSent
-                        ? (
-                          <Button type="primary" onClick={() => this.onOfferJobs(suggestedPositions)}>
-                            Отправить рекомендации
-                                    </Button>
-                        )
-                        : <div>Рекомендации отправлены!</div>
-                      }
+                      {!offerSent ? (
+                        <Button type="primary" onClick={() => this.onOfferJobs(suggestedPositions)}>
+                          Отправить рекомендации
+                        </Button>
+                      ) : (
+                        <div>Рекомендации отправлены!</div>
+                      )}
                     </div>
                   </Panel>
-                }
-                {outOfDateAlert &&
-                  <Panel header="Профиль давно не обновлялся!" key="2" extra={genExtra()}>
+                )}
+                {outOfDateAlert && (
+                  <Panel header="Профиль давно не обновлялся!" key="2">
                     <div>
-                      Последнее изменение о работе было более 6 месяцев нащад! Стоит связаться с кандидатом для актуализации информации в профиле
-                          </div>
-                  </Panel>
-                }
-                {factorAlert &&
-                  <Panel header="Низкое соответствие карьеры и образования!" key="3" extra={genExtra()}>
-                    <div>
-                      Уровень специализации ниже среднего: {specializationFactor}
+                      Последнее изменение о работе было более 6 месяцев нащад! Стоит связаться с
+                      кандидатом для актуализации информации в профиле
                     </div>
                   </Panel>
-                }
+                )}
+                {factorAlert && (
+                  <Panel header="Низкое соответствие карьеры и образования!" key="3">
+                    <div>Уровень специализации ниже среднего: {specializationFactor}</div>
+                  </Panel>
+                )}
               </Collapse>
-            }
+            )}
 
             <br />
             <JobsHistory records={jobsTimeline} />
@@ -249,7 +251,7 @@ class Profile extends React.Component {
           <Col span={10}>
             <Education title="Образование" data={educationData} />
             <div style={{ height: 24 }}></div>
-            <Education title="Мероприятия и конкурсы" data={competitionData} />
+            <Competitions title="Мероприятия и конкурсы" data={competitionsData} />
           </Col>
         </Row>
 

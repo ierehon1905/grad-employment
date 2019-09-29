@@ -80,29 +80,29 @@ class Analitics extends React.Component {
         professionsLabels: Object.fromEntries(labels.map((l, i) => [`y${i + 1}`, l])),
         popularSkills: [
           {
-            x: "IT",
-            y: 216
+            x: 'IT',
+            y: 216,
           },
           {
-            x: "Бухгалтерия, управленческий учет, финансы предприятия",
-            y: 62
+            x: 'Бухгалтерия, управленческий учет, финансы предприятия',
+            y: 62,
           },
           {
-            x: "Юриспруденция",
-            y: 60
+            x: 'Юриспруденция',
+            y: 60,
           },
           {
-            x: "Рабочий персонал",
-            y: 40
+            x: 'Рабочий персонал',
+            y: 40,
           },
           {
-            x: "Банки, инвестиции, лизинг",
-            y: 36
+            x: 'Банки, инвестиции, лизинг',
+            y: 36,
           },
           {
-            x: "Гуманиторные науки",
-            y: 29
-          }
+            x: 'Гуманиторные науки',
+            y: 29,
+          },
         ],
       });
       this.setState({ professionsData: dv });
@@ -111,7 +111,7 @@ class Analitics extends React.Component {
 
   render() {
     console.log(this.state);
-    
+
     return (
       <PageHeaderWrapper>
         <ChartCard
@@ -129,7 +129,7 @@ class Analitics extends React.Component {
             scale={scale}
           >
             <Tooltip crosshairs />
-            <Axis />
+            {/* <Axis name="value" /> */}
             <Legend />
             {/* <Geom type="area" position="year*value" color="type" shape="smooth" /> */}
             <Geom type="line" position="x*value" color="type" shape="smooth" size={2} />
@@ -138,21 +138,23 @@ class Analitics extends React.Component {
         <Row gutter={24} style={{ marginBottom: 24 }}>
           <Col span={12}>
             <ChartCard>
-            <Pie
-              hasLegend
-              title="Самые популярные направления"
-              subTitle="Самые популярные направления"
-              total={() => (
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: (this.state.popularSkills && this.state.popularSkills.reduce((pre, now) => now.y + pre, 0)),
-                  }}
-                />
-              )}
-              data={this.state.popularSkills}
-              valueFormat={val => <span dangerouslySetInnerHTML={{ __html: (val) }} />}
-              height={294}
-            />
+              <Pie
+                hasLegend
+                title="Самые популярные направления"
+                subTitle="Самые популярные направления"
+                // total={() => (
+                //   <span
+                //     dangerouslySetInnerHTML={{
+                //       __html:
+                //         this.state.popularSkills &&
+                //         this.state.popularSkills.reduce((pre, now) => now.y + pre, 0),
+                //     }}
+                //   />
+                // )}
+                data={this.state.popularSkills}
+                valueFormat={val => <span dangerouslySetInnerHTML={{ __html: val }} />}
+                height={294}
+              />
               {/* <Chart
                 height={window.innerHeight}
                 // data={dv}
@@ -203,7 +205,7 @@ class Analitics extends React.Component {
             </ChartCard>
           </Col>
           <Col span={12}>
-            <ChartCard>
+            {/* <ChartCard>
               <List split={false}>
                 {Array(7)
                   .fill(0)
@@ -225,60 +227,7 @@ class Analitics extends React.Component {
                     </List.Item>
                   ))}
               </List>
-            </ChartCard>
-          </Col>
-        </Row>
-        <Row gutter={24}>
-          <Col span={6}>
-            <ChartCard
-              title="Hello"
-              total="78%"
-              footer={<div>Lorem, ipsum dolor.</div>}
-              // contentHeight={500}
-            >
-              <MiniProgress percent={78} strokeWidth={8} target={80} />
-            </ChartCard>
-          </Col>
-          <Col span={6}>
-            <ChartCard
-              title="Hello"
-              total="78%"
-              footer={
-                <>
-                  <Divider style={{ margin: '10px 0', height: 1.5 }} />
-                  Lorem, ipsum dolor.
-                </>
-              }
-              // contentHeight={500}
-            >
-              {/* <Statistic value={93} suffix="%" /> */}
-              <MiniProgress
-                style={{ margin: '0 24px', padding: 10 }}
-                percent={78}
-                strokeWidth={8}
-                target={80}
-              />
-            </ChartCard>
-          </Col>
-          <Col span={6}>
-            <ChartCard
-              title="Hello"
-              total="78%"
-              footer={<div>Lorem, ipsum dolor.</div>}
-              // contentHeight={500}
-            >
-              <MiniProgress percent={78} strokeWidth={8} target={80} />
-            </ChartCard>
-          </Col>
-          <Col span={6}>
-            <ChartCard
-              title="Hello"
-              total="78%"
-              footer={<div>Lorem, ipsum dolor.</div>}
-              // contentHeight={500}
-            >
-              <MiniProgress percent={78} strokeWidth={8} target={80} />
-            </ChartCard>
+            </ChartCard> */}
           </Col>
         </Row>
       </PageHeaderWrapper>

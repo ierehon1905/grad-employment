@@ -70,6 +70,14 @@ class SearchPage extends React.Component {
     filters: {},
   };
 
+  componentDidMount() {
+    const { dispatch } = this.props;
+
+    if (dispatch) {
+      dispatch({ type: 'grad/search', payload: { q: '', f: {} } });
+    }
+  }
+
   handleMenuClick = e => {
     // console.log('click ', e);
     window.location.href = `/search/${e.key}`;
