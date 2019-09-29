@@ -57,26 +57,27 @@ class UniSelect extends React.Component {
       data: [],
       fetching: false,
     });
-    if (this.props.setFieldsValue) this.props.setFieldsValue({ [this.props.name]: value });
     console.log('select ', this.props.name, value);
   };
 
   render() {
     const { fetching, data } = this.state;
+    console.log('uni select props', this.props);
+
     // console.log('uni select', data, value);
 
     return (
       <Select
         mode="multiple"
         labelInValue
-        // defaultValue={[{ key: 1, label: '122' }]}
-        
+        // defaultValue={[{ key: 122 }]}
         placeholder="Select users"
         notFoundContent={fetching ? <Spin size="small" /> : null}
         filterOption={false}
         onSearch={this.fetchUser}
         onChange={this.handleChange}
         style={{ width: '100%' }}
+        value={this.props.value}
       >
         {data.map(d => (
           <Option key={d.id}>{d.name}</Option>
