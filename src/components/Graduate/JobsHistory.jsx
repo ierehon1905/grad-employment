@@ -27,8 +27,6 @@ const JobRecord = ({ speciality, company_name, start, end }) => {
       <Col span={18}>
         <Text strong>{company_name}</Text>
         <Paragraph ellipsis={{ rows: 1, expandable: true }}>{speciality}</Paragraph>
-        <Text strong>Lorem, ipsum.</Text>
-        <Paragraph ellipsis={{ rows: 3, expandable: true }}>{speciality}</Paragraph>
       </Col>
     </Row>
   );

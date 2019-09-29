@@ -1,4 +1,4 @@
-import { Icon, Tooltip } from 'antd';
+import { Icon, Tooltip, Button } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
@@ -17,13 +17,14 @@ const GlobalHeaderRight = props => {
 
   return (
     <div className={className}>
+
       <Tooltip
         title={formatMessage({
           id: 'component.globalHeader.help',
         })}
       >
-        
       </Tooltip>
+        <Button icon="arrow-down" href="http://gradalytics.misis.su/api/?action=exportCSV">Экспорт событий</Button>
       <Avatar />
     </div>
   );

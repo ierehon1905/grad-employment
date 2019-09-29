@@ -24,6 +24,26 @@ export async function search(q) {
   return res;
 }
 
+export async function subscribe({ id }) {
+  const res = await request('http://10.178.192.63:3000/gr/subscribeUser', {
+    method: 'put',
+    data: { id },
+  });
+  console.log('Service got ', res);
+
+  return res;
+}
+
+export async function offerJobs({ id, jobs }) {
+  const res = await request('http://10.178.192.63:3000/gr/offerJobs', {
+    method: 'put',
+    data: { userId: id, jobs },
+  });
+  console.log('Service got ', res);
+
+  return res;
+}
+
 export async function fetchEdit(data) {
   console.log('Service start ');
 
