@@ -94,12 +94,15 @@ class EditForm extends React.Component {
                             // max: 1,
                           },
                         ],
-                        initialValue: [
-                          {
-                            key: this.props.grad.educationData[i].id,
-                            label: this.props.grad.educationData[i].university_name,
-                          },
-                        ],
+                        initialValue:
+                          this.props.grad.educationData.length > i
+                            ? [
+                                {
+                                  key: this.props.grad.educationData[i].id,
+                                  label: this.props.grad.educationData[i].university_name,
+                                },
+                              ]
+                            : [],
                       })(<UniSelect name="university" />)}
                     </Form.Item>
                   </Col>
