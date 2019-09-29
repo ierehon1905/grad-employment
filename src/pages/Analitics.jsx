@@ -104,6 +104,40 @@ class Analitics extends React.Component {
             y: 29,
           },
         ],
+        topUniversity: [
+          {
+              "university_name": "(НИТУ \"МИСиС\") Национальный исследовательский технологический университет \"МИСиС\"",
+              "count": 7
+          },
+          {
+              "university_name": "(МАСИ) Московский архитектурно-строительный институт",
+              "count": 3
+          },
+          {
+              "university_name": "НTТУ 'МИСиС' Национальный исследовательский технологический",
+              "count": 3
+          },
+          {
+              "university_name": "(МГУ им. Ломоносова) Московский государственный университет им. М.В.Ломоносова",
+              "count": 3
+          },
+          {
+              "university_name": "(МГТУ) Московский государственный технический университет имени Н.Э.Баумана",
+              "count": 2
+          },
+          {
+              "university_name": "(МФТИ) Московский физико-технический институт (государственный университет)",
+              "count": 1
+          },
+          {
+              "university_name": "(МГСУ) Московский государственный строительный университет (Национальный исследовательский университет)",
+              "count": 1
+          },
+          {
+              "university_name": "(НИУ ВШЭ) Национальный исследовательский университет \"Высшая школа экономики\"",
+              "count": 1
+          },
+        ],
       });
       this.setState({ professionsData: dv });
     });
@@ -205,11 +239,10 @@ class Analitics extends React.Component {
             </ChartCard>
           </Col>
           <Col span={12}>
-            {/* <ChartCard>
+            <ChartCard>
               <List split={false}>
-                {Array(7)
-                  .fill(0)
-                  .map((_, i) => (
+                {this.state.topUniversity && this.state.topUniversity
+                  .map((item, i) => (
                     <List.Item>
                       <List.Item.Meta
                         avatar={
@@ -221,13 +254,66 @@ class Analitics extends React.Component {
                             }}
                           />
                         }
-                        title="lorem ipsum!"
+                        title={item.university_name}
                       />
-                      <div>{100 - i * 5}%</div>
+                      <div style={{marginLeft: 10}}>{item.count}</div>
                     </List.Item>
                   ))}
               </List>
-            </ChartCard> */}
+            </ChartCard>
+          </Col>
+        </Row>
+        <Row style={{visibility: "hidden"}} gutter={24}>
+          <Col span={6}>
+            <ChartCard
+              title="Hello"
+              total="78%"
+              footer={<div>Lorem, ipsum dolor.</div>}
+              // contentHeight={500}
+            >
+              <MiniProgress percent={78} strokeWidth={8} target={80} />
+            </ChartCard>
+          </Col>
+          <Col span={6}>
+            <ChartCard
+              title="Hello"
+              total="78%"
+              footer={
+                <>
+                  <Divider style={{ margin: '10px 0', height: 1.5 }} />
+                  Lorem, ipsum dolor.
+                </>
+              }
+              // contentHeight={500}
+            >
+              {/* <Statistic value={93} suffix="%" /> */}
+              <MiniProgress
+                style={{ margin: '0 24px', padding: 10 }}
+                percent={78}
+                strokeWidth={8}
+                target={80}
+              />
+            </ChartCard>
+          </Col>
+          <Col span={6}>
+            <ChartCard
+              title="Hello"
+              total="78%"
+              footer={<div>Lorem, ipsum dolor.</div>}
+              // contentHeight={500}
+            >
+              <MiniProgress percent={78} strokeWidth={8} target={80} />
+            </ChartCard>
+          </Col>
+          <Col span={6}>
+            <ChartCard
+              title="Hello"
+              total="78%"
+              footer={<div>Lorem, ipsum dolor.</div>}
+              // contentHeight={500}
+            >
+              <MiniProgress percent={78} strokeWidth={8} target={80} />
+            </ChartCard>
           </Col>
         </Row>
       </PageHeaderWrapper>
