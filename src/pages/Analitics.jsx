@@ -77,6 +77,32 @@ class Analitics extends React.Component {
       });
       this.setState({
         professionsLabels: Object.fromEntries(labels.map((l, i) => [`y${i + 1}`, l])),
+        popularSkills: [
+          {
+            x: "IT",
+            y: 216
+          },
+          {
+            x: "Бухгалтерия, управленческий учет, финансы предприятия",
+            y: 62
+          },
+          {
+            x: "Юриспруденция",
+            y: 60
+          },
+          {
+            x: "Рабочий персонал",
+            y: 40
+          },
+          {
+            x: "Банки, инвестиции, лизинг",
+            y: 36
+          },
+          {
+            x: "Гуманиторные науки",
+            y: 29
+          }
+        ],
       });
       this.setState({ professionsData: dv });
     });
@@ -84,7 +110,7 @@ class Analitics extends React.Component {
 
   render() {
     console.log(this.state);
-
+    
     return (
       <PageHeaderWrapper>
         <ChartCard
@@ -111,6 +137,21 @@ class Analitics extends React.Component {
         <Row gutter={24} style={{ marginBottom: 24 }}>
           <Col span={12}>
             <ChartCard>
+            <Pie
+              hasLegend
+              title="Самые популярные направления"
+              subTitle="Самые популярные направления"
+              total={() => (
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: (this.state.popularSkills && this.state.popularSkills.reduce((pre, now) => now.y + pre, 0)),
+                  }}
+                />
+              )}
+              data={this.state.popularSkills}
+              valueFormat={val => <span dangerouslySetInnerHTML={{ __html: (val) }} />}
+              height={294}
+            />
               {/* <Chart
                 height={window.innerHeight}
                 // data={dv}
